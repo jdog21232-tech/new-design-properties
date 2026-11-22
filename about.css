@@ -21,7 +21,7 @@
 .a-card p { font-size: 15px; color: var(--ink-2); }
 
 .a-teams { padding-top: var(--s8); }
-.a-teams .halves { margin-top: 0; }
+.a-teams .halves { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: var(--s3); }
 .team { display: grid; grid-template-columns: 72px 1fr; gap: var(--s4); align-items: start; padding: var(--pad); border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line); }
 .team img { width: 72px; height: 72px; object-fit: contain; background: #fff; border-radius: calc(var(--r-card) - var(--pad)); }
 .team > div { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; }
@@ -45,9 +45,12 @@
   .a-grid { grid-template-columns: 1fr 1fr; }
   .a-card { grid-template-columns: 136px 1fr; }
   .a-card img { width: 136px; height: 136px; }
+  .a-teams .halves { grid-template-columns: 1fr 1fr; }
   .team { grid-template-columns: 96px 1fr; }
   .team img { width: 96px; height: 96px; }
 }
 @media (min-width: 1024px) {
   .a-hero h1 { font-size: 80px; }
 }
+
+.team mark.confirm { align-self: flex-start; margin: -2px 0 var(--s1); }

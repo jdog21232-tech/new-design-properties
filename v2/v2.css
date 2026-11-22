@@ -35,6 +35,10 @@ body { background: var(--ink); }
 .stop h1 { font-size: 36px; font-weight: 600; margin-bottom: var(--s2); }
 .stop h2 { font-size: 28px; margin-bottom: var(--s2); }
 .stop .line { color: var(--ink-2); margin-bottom: var(--s3); }
+.points { list-style: none; margin: 0 0 var(--s4); padding: 0; display: grid; gap: var(--s1); }
+.points li { position: relative; padding-left: var(--s5); font-size: 15px; line-height: 1.35; }
+.points li::before { content: ""; position: absolute; left: 0; top: 6px; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+.stop-cta { width: 100%; }
 .stop .line a { font-weight: 700; color: var(--green-ink); white-space: nowrap; }
 .stop.lawn { --accent: var(--green); --accent-ink: var(--green-ink); }
 .stop .hint { display: flex; align-items: center; gap: var(--s2); margin-top: var(--s3); font-size: 14px; font-weight: 600; color: var(--muted); }

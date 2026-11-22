@@ -101,10 +101,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tiles input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, #fff); }
 .tiles input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
 .tiles-1 { grid-template-columns: 1fr; }
-.fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
-.fields label { display: flex; flex-direction: column; gap: var(--s1); font-size: 14px; font-weight: 600; }
+.tiles label:last-child:nth-child(odd) { grid-column: 1 / -1; } /* odd count: last tile spans the row */
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
+.fields label { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; font-size: 14px; font-weight: 600; }
 .fields .wide { grid-column: 1 / -1; }
-.fields input { font: inherit; font-size: 17px; height: var(--tap); padding: 0 var(--s3); border: 2px solid var(--line); border-radius: var(--r-ctl); background: #fff; min-width: 0; }
+.fields input { width: 100%; font: inherit; font-size: 17px; height: var(--tap); padding: 0 var(--s3); border: 2px solid var(--line); border-radius: var(--r-ctl); background: #fff; min-width: 0; }
 .fields input:focus { border-color: var(--accent); outline: none; }
 .fields .invalid { border-color: #b3261e; }
 .est-summary { margin: var(--s3) 0; padding: var(--s2) var(--s3); border-radius: var(--r-ctl); background: var(--paper); font-size: 14px; }

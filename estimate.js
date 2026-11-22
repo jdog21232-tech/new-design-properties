@@ -59,6 +59,16 @@ export function initEstimate(form, { onTeam } = {}) {
     if (!ok) e.preventDefault(); else update();
   }));
   show(1);
+  // Jump straight in with a project already picked (Version 2 room cards use this).
+  return {
+    preset(value) {
+      const r = [...form.querySelectorAll("input[name=project]")].find(i => i.value === value);
+      if (!r) return show(1);
+      r.checked = true;
+      if (onTeam) onTeam(r.dataset.team);
+      show(2);
+    },
+  };
 }
 
 export const ESTIMATE_HTML = `
@@ -72,6 +82,7 @@ export const ESTIMATE_HTML = `
     <label><input type="radio" name="project" value="Addition or new build" data-team="build"><span>Addition or new build</span></label>
     <label><input type="radio" name="project" value="Siding, windows or roof" data-team="build"><span>Siding, windows, roof</span></label>
     <label><input type="radio" name="project" value="Repair or handyman job" data-team="build"><span>Repair or handyman</span></label>
+    <label><input type="radio" name="project" value="Remodel or renovation" data-team="build"><span>Remodel or renovation</span></label>
     <label><input type="radio" name="project" value="Lawn or landscaping" data-team="lawn"><span>Lawn or landscaping</span></label>
   </div>
 </fieldset>

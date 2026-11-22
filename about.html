@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="v1.css">
-<link rel="stylesheet" href="about.css">
+<link rel="stylesheet" href="base.css?v=20261122f">
+<link rel="stylesheet" href="v1.css?v=20261122f">
+<link rel="stylesheet" href="about.css?v=20261122f">
 </head>
 <body data-mode="build">
 
@@ -83,8 +83,8 @@
         <div>
           <h3>New Design Properties</h3>
           <p>Building · Remodeling · Development</p>
-          <a class="big" href="tel:+16056503214">605-650-3214 <small>Sioux Falls</small></a>
-          <a class="big" href="tel:+17635280872">763-528-0872 <small>Minnesota</small></a>
+          <a class="big" href="tel:+16056503214">605-650-3214 <small>Sioux Falls</small></a><mark class="confirm" title="Name to confirm">Jeff Genser</mark>
+          <a class="big" href="tel:+17635280872">763-528-0872 <small>Minnesota</small></a><mark class="confirm" title="Name to confirm">Name to confirm</mark>
           <a href="mailto:Jeffgenser@yahoo.com">Jeffgenser@yahoo.com</a>
         </div>
       </article>
@@ -93,7 +93,7 @@
         <div>
           <h3>New Design Lawn &amp; Landscape</h3>
           <p>Est. 2003 · Sioux Falls area</p>
-          <a class="big" href="tel:+16057281478">605-728-1478 <small>South Dakota</small></a>
+          <a class="big" href="tel:+16057281478">605-728-1478 <small>South Dakota</small></a><mark class="confirm" title="Name to confirm">Josh Genser</mark>
           <a href="mailto:Joshgenser@gmail.com">Joshgenser@gmail.com</a>
         </div>
       </article>
@@ -102,18 +102,19 @@
 
   <!-- Where + when + licenses -->
   <section class="wrap contact" id="contact" aria-labelledby="where-h">
-    <h2 id="where-h" class="row-title">Where we work</h2>
+    <h2 id="where-h" class="row-title">Where we work &amp; hours</h2>
     <ul class="quarters">
-      <li class="info"><small>Minnesota</small><b>Twin Cities</b></li>
-      <li class="info"><small>Minnesota</small><b>Southwest MN</b></li>
-      <li class="info"><small>South Dakota</small><b>Sioux Falls</b><span>Now serving</span></li>
-      <li class="info info-hours"><small>Hours</small><b>Mon–Fri</b><b>9:00 am – 5:00 pm</b><span>Sat &amp; Sun closed</span></li>
+      <li><div class="call"><span class="call-team">Minnesota</span><span class="call-area">Metro area</span><b>Twin Cities</b></div></li>
+      <li><div class="call"><span class="call-team">Minnesota</span><span class="call-area">Region</span><b>Southwest MN</b></div></li>
+      <li><div class="call"><span class="call-team">South Dakota</span><span class="call-area">Now serving</span><b>Sioux Falls</b></div></li>
+      <li class="hours"><span class="call-team">Hours</span><span class="call-area">Central Time</span><b>Mon–Fri</b><span class="hours-time">9:00 am – 5:00 pm</span><span class="hours-closed">Sat &amp; Sun closed</span></li>
     </ul>
-    <ul class="halves" aria-label="Licenses">
-      <li class="lic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.9-4.9 1.4 1.4-6.3 6.3Z" fill="currentColor"/></svg><div><small>Minnesota license</small><b>#BC431346</b></div></li>
-      <li class="lic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.9-4.9 1.4 1.4-6.3 6.3Z" fill="currentColor"/></svg><div><small>Sioux Falls license</small><b>#12163</b></div></li>
-    </ul>
-    <p class="insured">Licensed and insured in South Dakota and Minnesota. <a href="https://www.facebook.com/325166774003598" rel="noopener" target="_blank">Find us on Facebook</a></p>
+    <div class="licenses" aria-label="Licenses">
+      <div class="lic"><span>Minnesota License</span><b>BC431346</b></div>
+      <div class="lic"><span>Sioux Falls License</span><b>12163</b></div>
+      <div class="lic lic-note"><span>Coverage</span><b>Licensed &amp; insured in SD and MN</b></div>
+    </div>
+    <p class="insured"><a href="https://www.facebook.com/325166774003598" rel="noopener" target="_blank">Find us on Facebook</a></p>
   </section>
 
   <section class="wrap a-cta">

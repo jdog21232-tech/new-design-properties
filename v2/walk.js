@@ -4,7 +4,7 @@
 // from the exact point it was taken ("Tour Into the Picture"). Standing at that point you see the photo itself;
 // stepping forward gives true parallax. Scrolling walks you into one photo and on into the next.
 import * as THREE from "../vendor/three.module.min.js";
-import { initEstimate, ESTIMATE_HTML } from "../estimate.js";
+import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261122f";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -12,7 +12,7 @@ const IMG = "../img/";
 
 const form = $("#estimate");
 form.innerHTML = ESTIMATE_HTML;
-initEstimate(form, { onTeam: t => { document.body.dataset.mode = t; } });
+const estimate = initEstimate(form, { onTeam: t => { document.body.dataset.mode = t; } });
 
 // ------------------------------------------------------------------ measured rooms
 // Image coordinates: u 0..1 left to right, v 0..1 bottom to top. vy = horizon (eye level).
@@ -260,7 +260,7 @@ window.addEventListener("scroll", () => { readScroll(); if (document.hidden) tic
 window.addEventListener("resize", () => { resize(); readScroll(); tick(); });
 window.addEventListener("pointermove", ev => { if (ev.pointerType === "mouse") pointer.set((ev.clientX / state.W) * 2 - 1, (ev.clientY / state.H) * 2 - 1); }, { passive: true });
 window.addEventListener("deviceorientation", ev => { if (ev.gamma == null) return; pointer.set(THREE.MathUtils.clamp(ev.gamma / 25, -1, 1), THREE.MathUtils.clamp((ev.beta - 45) / 25, -1, 1)); }, { passive: true });
-$$("[data-go]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); window.scrollTo({ top: Number(b.dataset.go) * stopPx(), behavior: reduce ? "auto" : "smooth" }); }));
+$$("[data-go]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); if (b.dataset.project) estimate.preset(b.dataset.project); window.scrollTo({ top: Number(b.dataset.go) * stopPx(), behavior: reduce ? "auto" : "smooth" }); }));
 
 resize(); readScroll(); sCur = sTarget; tick();
 setTimeout(() => $("#loader").classList.add("done"), 4000); // never leave the loader up
