@@ -19,13 +19,17 @@ Then open http://127.0.0.1:8820 (run it from this folder).
 Two versions share one estimate flow (`estimate.js`), one set of tokens (`base.css`) and one photo set (`img/`).
 
 - **Version 1** (`index.html`, `v1.css`, `v1.js`): lead-first and short (about 2 phone screens). Hero photo with
-  the estimate card on the first screen, one swipeable photo row with filters and a lightbox, all 21 services
-  behind one "Everything we do" toggle, contacts in one row of quarters.
-- **Version 2** (`v2/`): a scroll-driven 3D walk through a house built with Three.js (`vendor/three.module.min.js`,
-  r170, MIT). Front of the house, kitchen, living room, bedroom, out the back door to the deck, the yard, then an
-  aerial view with the estimate form. Their photos hang in frames on the walls (tap one to enlarge). Each stop's
-  camera is solved from the field of view so the photos fill the free part of the screen, dead level and square on;
-  phones stack the photos, wide screens lay them in a row. Falls back to a plain page without WebGL.
+  the estimate card on the first screen, one swipeable photo row with filters and a lightbox, all 22 services
+  named in a band right under the header, hours and both licenses as large cards, contacts in one row of quarters.
+- **Version 2** (`v2/`, `v2/walk.js`): you walk *into* their photos. Each of 9 photos is rebuilt as a simple 3D
+  room measured from its own perspective (horizon, floor lines of each wall, ceiling line, plus depth cards for near
+  objects: island, sofa, chairs, bed, deck, tree, pallets). The photo is projected onto that room from the spot it
+  was taken, so each stop shows the real photo and scrolling steps into it with true parallax, then cross-fades into
+  the next. Phones pan across each photo as you walk; mouse or phone tilt adds a little look-around. Ends on the
+  estimate form. Room measurements live in the `ROOMS` table at the top of `walk.js`. Three.js r170 (MIT) in
+  `vendor/`. Falls back to plain photo cards without WebGL.
+- **About us** (`about.html`, `about.css`): their own About text (story, team, quality, experience), facts row,
+  the two teams with logos and contacts, service area, hours and licenses.
 - Geometry: 4px spacing grid, one container edge (max 1120 = 4 x 280, quarter columns), concentric radii
   (card radius = control radius + padding) and squircle corners via `corner-shape: squircle` (Chrome and Edge;
   other browsers show regular rounded corners).

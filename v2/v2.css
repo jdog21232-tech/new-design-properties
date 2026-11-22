@@ -2,9 +2,11 @@
    All edges align to the same container as the header (max 1120 + gutters). */
 :root { --top: 104px; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --card-w: 384px; }
 html { scroll-snap-type: y proximity; }
-body { background: #d8e4ec; }
+body { background: var(--ink); }
 
 #scene { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; touch-action: pan-y; }
+.vignette { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(10,12,14,.45) 100%); }
+.dim { position: fixed; inset: 0; pointer-events: none; background: var(--ink); opacity: 0; }
 .track section { height: 100vh; height: 100svh; scroll-snap-align: start; pointer-events: none; }
 
 /* Chrome: ribbon 32 + bar 56 + rooms 16 = 104 */
@@ -19,9 +21,9 @@ body { background: #d8e4ec; }
 
 /* Room progress: 7 equal segments on phones, labelled rail on desktop */
 .rooms { max-width: none; padding: var(--s1) var(--edge) 0; pointer-events: none; }
-.rooms ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--s1); pointer-events: auto; }
+.rooms ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, 1fr); gap: var(--s1); pointer-events: auto; }
 .rooms button { display: block; width: 100%; height: 12px; padding: 4px 0; border: 0; background: none; }
-.rooms button::before { content: ""; display: block; height: 4px; border-radius: 2px; background: rgba(21,23,26,.22); transition: background-color .25s ease; }
+.rooms button::before { content: ""; display: block; height: 4px; border-radius: 2px; background: rgba(255,255,255,.55); box-shadow: 0 0 0 1px rgba(10,12,14,.28); transition: background-color .25s ease; }
 .rooms button.on::before, .rooms button.past::before { background: var(--accent); }
 .rooms span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
@@ -55,9 +57,9 @@ body { background: #d8e4ec; }
   .stop h2 { font-size: 36px; }
   .rooms { position: fixed; top: 50%; right: var(--edge); transform: translateY(-50%); padding: 0; width: auto; max-width: none; margin: 0; }
   .rooms ol { grid-template-columns: none; gap: var(--s2); justify-items: end; }
-  .rooms button { display: flex; align-items: center; justify-content: flex-end; gap: var(--s2); width: auto; height: 32px; padding: 0; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .rooms button { display: flex; align-items: center; justify-content: flex-end; gap: var(--s2); width: auto; height: 28px; padding: 0; font-size: 13px; font-weight: 700; color: var(--ink-2); }
   .rooms span { position: static; width: auto; height: auto; overflow: visible; clip: auto; opacity: 0; transform: translateX(4px); transition: opacity .2s ease, transform .2s ease; background: rgba(255,255,255,.9); padding: 2px var(--s2); border-radius: var(--r-ctl); }
-  .rooms button::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: rgba(21,23,26,.25); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+  .rooms button::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: rgba(21,23,26,.55); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
   .rooms button::before { display: none; }
   .rooms button.on::after { background: var(--accent); transform: scale(1.25); }
   .rooms button.on span, .rooms button:hover span, .rooms button:focus-visible span { opacity: 1; transform: none; }
@@ -70,4 +72,5 @@ body.flat .chrome { position: sticky; }
 body.flat .cards { position: static; display: grid; gap: var(--s4); padding: var(--s4) 0 var(--s8); width: auto; max-width: 720px; margin: 0 auto; }
 body.flat .stop { position: static; opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
 body.flat .flat-photos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-top: var(--s3); }
+body.flat .flat-photo { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--r-ctl); margin-bottom: var(--s3); }
 body.flat .flat-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-ctl); }
