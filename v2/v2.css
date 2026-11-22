@@ -11,7 +11,9 @@ body { background: #d8e4ec; }
 .chrome { position: fixed; z-index: 30; inset: 0 0 auto 0; pointer-events: none; }
 .chrome > * { pointer-events: auto; }
 .bar { display: flex; align-items: center; gap: var(--s2); height: 56px; background: rgba(245,242,235,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); max-width: none; padding-left: var(--edge); padding-right: var(--edge); }
-.bar .brand { margin-right: auto; }
+.bar .brand { margin-right: auto; min-width: 0; }
+.bar .brand-text b { white-space: nowrap; }
+@media (max-width: 400px) { .bar .brand svg { width: 36px; } .bar .brand-text b { font-size: 17px; } .bar .brand-text small { font-size: 10px; letter-spacing: .3em; } }
 .bar .btn { min-height: 40px; }
 .bar .btn-icon { width: 40px; }
 

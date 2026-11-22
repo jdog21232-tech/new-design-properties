@@ -18,7 +18,7 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .hero-copy h1 { font-size: 40px; font-weight: 600; }
 .hero-copy p { color: #e9e6df; max-width: 34ch; }
 .chips-dark li { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.24); color: #fff; }
-.estimate { margin-top: calc(-1 * var(--s6)); }
+.estimate { position: relative; z-index: 1; margin-top: calc(-1 * var(--s6)); }
 
 /* Work row */
 .work { padding-top: var(--s6); padding-bottom: var(--s6); }
