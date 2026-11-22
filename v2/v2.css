@@ -1,0 +1,71 @@
+/* Version 2: 3D walk-through. Fixed canvas, fixed chrome, one fixed card slot, scroll track drives the camera.
+   All edges align to the same container as the header (max 1120 + gutters). */
+:root { --top: 104px; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --card-w: 384px; }
+html { scroll-snap-type: y proximity; }
+body { background: #d8e4ec; }
+
+#scene { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; touch-action: pan-y; }
+.track section { height: 100vh; height: 100svh; scroll-snap-align: start; pointer-events: none; }
+
+/* Chrome: ribbon 32 + bar 56 + rooms 16 = 104 */
+.chrome { position: fixed; z-index: 30; inset: 0 0 auto 0; pointer-events: none; }
+.chrome > * { pointer-events: auto; }
+.bar { display: flex; align-items: center; gap: var(--s2); height: 56px; background: rgba(245,242,235,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); max-width: none; padding-left: var(--edge); padding-right: var(--edge); }
+.bar .brand { margin-right: auto; }
+.bar .btn { min-height: 40px; }
+.bar .btn-icon { width: 40px; }
+
+/* Room progress: 7 equal segments on phones, labelled rail on desktop */
+.rooms { max-width: none; padding: var(--s1) var(--edge) 0; pointer-events: none; }
+.rooms ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--s1); pointer-events: auto; }
+.rooms button { display: block; width: 100%; height: 12px; padding: 4px 0; border: 0; background: none; }
+.rooms button::before { content: ""; display: block; height: 4px; border-radius: 2px; background: rgba(21,23,26,.22); transition: background-color .25s ease; }
+.rooms button.on::before, .rooms button.past::before { background: var(--accent); }
+.rooms span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Card slot */
+.cards { position: fixed; z-index: 20; left: var(--gutter); right: var(--gutter); bottom: calc(var(--gutter) + env(safe-area-inset-bottom)); pointer-events: none; }
+.stop { position: absolute; left: 0; right: 0; bottom: 0; opacity: 0; visibility: hidden; will-change: opacity, transform; }
+.stop.live { pointer-events: auto; }
+.stop .kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: var(--s2); }
+.stop h1 { font-size: 36px; font-weight: 600; margin-bottom: var(--s2); }
+.stop h2 { font-size: 28px; margin-bottom: var(--s2); }
+.stop .line { color: var(--ink-2); margin-bottom: var(--s3); }
+.stop .line a { font-weight: 700; color: var(--green-ink); white-space: nowrap; }
+.stop.lawn { --accent: var(--green); --accent-ink: var(--green-ink); }
+.stop .hint { display: flex; align-items: center; gap: var(--s2); margin-top: var(--s3); font-size: 14px; font-weight: 600; color: var(--muted); }
+.chev { width: 12px; height: 12px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); animation: bob 1.4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(4px) rotate(45deg); } }
+.final-meta { margin-top: var(--s3); padding-top: var(--s3); border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+
+/* Loader */
+.loader { position: fixed; inset: 0; z-index: 40; display: grid; place-content: center; justify-items: center; gap: var(--s3); background: var(--paper); font-weight: 600; color: var(--ink-2); transition: opacity .4s ease; }
+.loader span { width: 32px; height: 32px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--cedar); animation: spin .9s linear infinite; }
+.loader.done { opacity: 0; pointer-events: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Desktop: card in the left quarter, labelled room rail on the right edge */
+@media (min-width: 1024px) {
+  :root { --top: 88px; }
+  .cards { left: var(--edge); right: auto; width: var(--card-w); top: var(--top); bottom: 0; display: flex; align-items: center; }
+  .stop { top: 50%; bottom: auto; transform: translateY(-50%); }
+  .stop h1 { font-size: 48px; }
+  .stop h2 { font-size: 36px; }
+  .rooms { position: fixed; top: 50%; right: var(--edge); transform: translateY(-50%); padding: 0; width: auto; max-width: none; margin: 0; }
+  .rooms ol { grid-template-columns: none; gap: var(--s2); justify-items: end; }
+  .rooms button { display: flex; align-items: center; justify-content: flex-end; gap: var(--s2); width: auto; height: 32px; padding: 0; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .rooms span { position: static; width: auto; height: auto; overflow: visible; clip: auto; opacity: 0; transform: translateX(4px); transition: opacity .2s ease, transform .2s ease; background: rgba(255,255,255,.9); padding: 2px var(--s2); border-radius: var(--r-ctl); }
+  .rooms button::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: rgba(21,23,26,.25); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+  .rooms button::before { display: none; }
+  .rooms button.on::after { background: var(--accent); transform: scale(1.25); }
+  .rooms button.on span, .rooms button:hover span, .rooms button:focus-visible span { opacity: 1; transform: none; }
+}
+
+/* No WebGL: a plain, readable page */
+body.flat { background: var(--paper); }
+body.flat #scene, body.flat .track, body.flat .rooms { display: none; }
+body.flat .chrome { position: sticky; }
+body.flat .cards { position: static; display: grid; gap: var(--s4); padding: var(--s4) 0 var(--s8); width: auto; max-width: 720px; margin: 0 auto; }
+body.flat .stop { position: static; opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+body.flat .flat-photos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-top: var(--s3); }
+body.flat .flat-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-ctl); }

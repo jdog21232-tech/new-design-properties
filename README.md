@@ -16,14 +16,22 @@ python3 -m http.server 8820 --bind 127.0.0.1
 Then open http://127.0.0.1:8820 (run it from this folder).
 
 ## What's in it
-- `index.html`: one phone-first page. Hero (their kitchen photo + their tagline), trust strip, Build & Remodel /
-  Lawn & Landscape switch (swaps photos, service list, accent colour and the sticky Call number), filterable
-  gallery with a lightbox, "your next bathroom" slot, 4-step process, service-area map of MN + SD (signature
-  element), 4-step free-estimate flow that opens a pre-filled text or email to the right line, story, contacts
-  by team, hours, licenses.
-- `privacy.html`: draft privacy page.
-- `img/`: their photos, resized. Originals in `_source/` (not committed).
-- `noindex` is set on every page, and a ribbon marks it as a draft.
+Two versions share one estimate flow (`estimate.js`), one set of tokens (`base.css`) and one photo set (`img/`).
+
+- **Version 1** (`index.html`, `v1.css`, `v1.js`): lead-first and short (about 2 phone screens). Hero photo with
+  the estimate card on the first screen, one swipeable photo row with filters and a lightbox, all 21 services
+  behind one "Everything we do" toggle, contacts in one row of quarters.
+- **Version 2** (`v2/`): a scroll-driven 3D walk through a house built with Three.js (`vendor/three.module.min.js`,
+  r170, MIT). Front of the house, kitchen, living room, bedroom, out the back door to the deck, the yard, then an
+  aerial view with the estimate form. Their photos hang in frames on the walls (tap one to enlarge). Each stop's
+  camera is solved from the field of view so the photos fill the free part of the screen, dead level and square on;
+  phones stack the photos, wide screens lay them in a row. Falls back to a plain page without WebGL.
+- Geometry: 4px spacing grid, one container edge (max 1120 = 4 x 280, quarter columns), concentric radii
+  (card radius = control radius + padding) and squircle corners via `corner-shape: squircle` (Chrome and Edge;
+  other browsers show regular rounded corners).
+- The estimate flow opens a pre-filled text or email to the right line; nothing is stored.
+- `privacy.html`: draft privacy page. `img/sm/`: smaller copies for the photo row and the 3D textures.
+- `noindex` on every page, and a ribbon marks it as a draft (with a Version 1 / Version 2 switch).
 
 ## Going live checklist (needs the owner's yes, nothing here is done)
 - [ ] Client says yes to the concept.
