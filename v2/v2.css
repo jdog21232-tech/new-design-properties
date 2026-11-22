@@ -31,13 +31,13 @@ body { background: var(--ink); }
 .cards { position: fixed; z-index: 20; left: var(--gutter); right: var(--gutter); bottom: calc(var(--gutter) + env(safe-area-inset-bottom)); pointer-events: none; }
 .stop { position: absolute; left: 0; right: 0; bottom: 0; opacity: 0; visibility: hidden; will-change: opacity, transform; }
 .stop.live { pointer-events: auto; }
-.stop .kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: var(--s2); }
-.stop h1 { font-size: 36px; font-weight: 600; margin-bottom: var(--s2); }
-.stop h2 { font-size: 28px; margin-bottom: var(--s2); }
-.stop .line { color: var(--ink-2); margin-bottom: var(--s3); }
+.stop .kicker { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: var(--s2); }
+.stop h1 { font-size: 38px; font-weight: 600; margin-bottom: var(--s2); }
+.stop h2 { font-size: 32px; margin-bottom: var(--s2); }
+.stop .line { color: var(--ink-2); font-size: 17px; margin-bottom: var(--s3); }
 .points { list-style: none; margin: 0 0 var(--s4); padding: 0; display: grid; gap: var(--s1); }
-.points li { position: relative; padding-left: var(--s5); font-size: 15px; line-height: 1.35; }
-.points li::before { content: ""; position: absolute; left: 0; top: 6px; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+.points li { position: relative; padding-left: var(--s6); font-size: 16px; line-height: 1.35; }
+.points li::before { content: ""; position: absolute; left: 0; top: .32em; width: .7em; height: .7em; border-radius: 3px; background: var(--accent); }
 .stop-cta { width: 100%; }
 .stop .line a { font-weight: 700; color: var(--green-ink); white-space: nowrap; }
 .stop.lawn { --accent: var(--green); --accent-ink: var(--green-ink); }
@@ -57,13 +57,22 @@ body { background: var(--ink); }
   :root { --top: 88px; }
   .cards { left: var(--edge); right: auto; width: var(--card-w); top: var(--top); bottom: 0; display: flex; align-items: center; }
   .stop { top: 50%; bottom: auto; transform: translateY(-50%); }
-  .stop h1 { font-size: 48px; }
-  .stop h2 { font-size: 36px; }
+  /* Desktop scales with the screen: card 32vw (400 to 520px), type grows with it. */
+  :root { --card-w: clamp(400px, 32vw, 520px); --pad: clamp(24px, 2vw, 32px); }
+  .stop .kicker { font-size: clamp(13px, 1vw, 15px); margin-bottom: var(--s3); }
+  .stop h1 { font-size: clamp(48px, 4.2vw, 68px); }
+  .stop h2 { font-size: clamp(38px, 3.3vw, 54px); margin-bottom: var(--s3); }
+  .stop .line { font-size: clamp(18px, 1.35vw, 22px); line-height: 1.45; margin-bottom: var(--s4); }
+  .points { gap: var(--s2); margin-bottom: var(--s5); }
+  .points li { font-size: clamp(17px, 1.25vw, 20px); }
+  .stop-cta { min-height: 56px; font-size: clamp(16px, 1.15vw, 19px); }
+  .stop .hint { font-size: 15px; }
+  .final-meta { font-size: 13px; }
   .rooms { position: fixed; top: 50%; right: var(--edge); transform: translateY(-50%); padding: 0; width: auto; max-width: none; margin: 0; }
-  .rooms ol { grid-template-columns: none; gap: var(--s2); justify-items: end; }
-  .rooms button { display: flex; align-items: center; justify-content: flex-end; gap: var(--s2); width: auto; height: 28px; padding: 0; font-size: 13px; font-weight: 700; color: var(--ink-2); }
-  .rooms span { position: static; width: auto; height: auto; overflow: visible; clip: auto; opacity: 0; transform: translateX(4px); transition: opacity .2s ease, transform .2s ease; background: rgba(255,255,255,.9); padding: 2px var(--s2); border-radius: var(--r-ctl); }
-  .rooms button::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: rgba(21,23,26,.55); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+  .rooms ol { grid-template-columns: none; gap: var(--s3); justify-items: end; }
+  .rooms button { display: flex; align-items: center; justify-content: flex-end; gap: var(--s2); width: auto; height: 32px; padding: 0; font-size: 15px; font-weight: 700; color: var(--ink-2); }
+  .rooms span { position: static; width: auto; height: auto; overflow: visible; clip: auto; opacity: 0; transform: translateX(4px); transition: opacity .2s ease, transform .2s ease; background: rgba(255,255,255,.9); padding: var(--s1) var(--s3); border-radius: var(--r-ctl); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+  .rooms button::after { content: ""; flex: none; width: 16px; height: 16px; border-radius: 50%; background: rgba(21,23,26,.55); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
   .rooms button::before { display: none; }
   .rooms button.on::after { background: var(--accent); transform: scale(1.25); }
   .rooms button.on span, .rooms button:hover span, .rooms button:focus-visible span { opacity: 1; transform: none; }

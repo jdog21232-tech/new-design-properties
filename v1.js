@@ -1,5 +1,5 @@
-import { initEstimate, ESTIMATE_HTML, CONTACTS } from "./estimate.js?v=20261122f";
-import { SERVICES } from "./services.js?v=20261122f";
+import { initEstimate, ESTIMATE_HTML, CONTACTS } from "./estimate.js?v=20261122g";
+import { SERVICES } from "./services.js?v=20261122g";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
