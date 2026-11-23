@@ -1,4 +1,4 @@
-import { initEstimate, ESTIMATE_HTML, GROUPS } from "./estimate.js?v=20261123f";
+import { initEstimate, ESTIMATE_HTML, GROUPS } from "./estimate.js?v=20261123h";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -9,6 +9,10 @@ form.innerHTML = ESTIMATE_HTML;
 // Picking a service swaps the hero photo to matching work (cross-fade). Stand-in photos get a faint "photo needed" note.
 const hero = $(".hero"), small = window.matchMedia("(max-width: 719px)");
 let heroSrc = "img/kitchen-1.jpg";
+// Where the subject sits across each photo (0 left, 1 right); phones show a tall slice centred there.
+const FOCUS = { "kitchen-1": 0.45, "kitchen-2": 0.35, "great-room": 0.6, "ph-additions": 0.5, "deck-cedar": 0.42,
+  "ph-exteriors": 0.5, "ph-repairs": 0.5, "lawn-hillside": 0.5, "paver-patio": 0.45 };
+const pos = key => `${(FOCUS[key] ?? 0.5) * 100}% 50%`;
 function setHero(g) {
   if (!g.photo) return;
   const src = `img/${small.matches ? "sm/" : ""}${g.photo}.jpg`;
@@ -16,7 +20,7 @@ function setHero(g) {
   $(".ph-note .ph-long").textContent = g.placeholder ? `Send us a photo of your own ${g.name.toLowerCase()} work for this spot.` : "";
   if (src === heroSrc) return;
   heroSrc = src;
-  const im = new Image(); im.className = "hero-bg is-new"; im.alt = ""; im.src = src;
+  const im = new Image(); im.className = "hero-bg is-new"; im.alt = ""; im.src = src; im.style.objectPosition = pos(g.photo);
   im.decode().catch(() => {}).then(() => {
     if (heroSrc !== src) return;
     const old = $$(".hero-bg"); old[old.length - 1].after(im);

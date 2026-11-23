@@ -4,7 +4,7 @@
 // from the exact point it was taken ("Tour Into the Picture"). Standing at that point you see the photo itself;
 // stepping forward gives true parallax. Scrolling walks you into one photo and on into the next.
 import * as THREE from "../vendor/three.module.min.js";
-import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123f";
+import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123h";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -16,32 +16,33 @@ const estimate = initEstimate(form, { onTeam: t => { document.body.dataset.mode 
 
 // ------------------------------------------------------------------ measured rooms
 // Image coordinates: u 0..1 left to right, v 0..1 bottom to top. vy = horizon (eye level).
+// fx: where the subject sits across the photo; phones (which see a narrow slice) centre on it.
 // walls: floor lines [u1, v1, u2, v2]. ceil: v of the ceiling line on the first wall. cards: near objects,
 // standing on the floor at contact v (c) or at a set depth in metres (z).
 const ROOMS = {
-  "lawn-front": { aspect: 1, hfov: 62, h: 1.3, vy: 0.66, walls: [[-0.1, 0.58, 1.1, 0.58]],
+  "lawn-front": { fx: 0.3, aspect: 1, hfov: 62, h: 1.3, vy: 0.66, walls: [[-0.1, 0.58, 1.1, 0.58]],
     cards: [{ u: [0.765, 0.925], v: [0.12, 1.02], c: 0.17 }] },
-  "kitchen-1": { aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.47, ceil: 0.66,
+  "kitchen-1": { fx: 0.45, aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.47, ceil: 0.66,
     walls: [[0.08, 0.345, 0.68, 0.35], [0.6, 0.207, 1.06, 0.03], [-0.08, 0.2, 0.11, 0.335]],
     cards: [{ u: [-0.02, 0.72], v: [-0.02, 0.335], z: 2.5 }, { u: [0.17, 0.25], v: [0.7, 1.02], z: 2.3 }, { u: [0.44, 0.52], v: [0.66, 1.02], z: 3.2 }] },
-  "great-room": { aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.5, ceil: 0.66,
+  "great-room": { fx: 0.6, aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.5, ceil: 0.66,
     walls: [[-0.1, 0.36, 0.53, 0.37], [0.5, 0.33, 1.1, 0.31]],
     cards: [{ u: [0.1, 0.37], v: [0.33, 0.53], c: 0.335 }, { u: [0.5, 0.9], v: [0.21, 0.47], c: 0.21 }, { u: [0.865, 0.975], v: [0.31, 0.66], c: 0.31 },
       { u: [0.39, 0.58], v: [0.12, 0.31], c: 0.12 }, { u: [0.55, 1.02], v: [-0.02, 0.27], z: 1.7 }, { u: [0.4, 0.57], v: [0.84, 1.02], z: 4.0 }] },
-  "living-2": { aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.5, ceil: 0.73,
+  "living-2": { fx: 0.55, aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.5, ceil: 0.73,
     walls: [[0.21, 0.355, 0.71, 0.36], [-0.1, -0.1, 0.21, 0.355], [0.7, 0.18, 1.1, 0.17]],
     cards: [{ u: [0.45, 0.84], v: [0.16, 0.47], c: 0.165 }, { u: [0.38, 0.56], v: [0.12, 0.34], c: 0.13 }, { u: [0.8, 1.02], v: [-0.02, 0.62], c: 0.03 }, { u: [0.42, 0.81], v: [-0.02, 0.33], z: 1.8 }] },
-  "bedroom": { aspect: 1400 / 927, hfov: 80, h: 1.3, vy: 0.55, ceil: 0.74,
+  "bedroom": { fx: 0.4, aspect: 1400 / 927, hfov: 80, h: 1.3, vy: 0.55, ceil: 0.74,
     walls: [[0.47, 0.365, 1.1, 0.28], [-0.1, 0.29, 0.47, 0.365]],
     cards: [{ u: [0.13, 0.26], v: [0.3, 0.67], c: 0.32 }, { u: [0.4, 0.775], v: [0.1, 0.45], c: 0.1 }, { u: [0.82, 0.98], v: [0.13, 0.55], c: 0.135 }, { u: [-0.02, 0.235], v: [-0.02, 0.47], z: 2.2 }, { u: [0.455, 0.555], v: [0.81, 0.95], z: 3.0 }] },
-  "wet-bar": { aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.5, ceil: 0.87,
+  "wet-bar": { fx: 0.3, aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.5, ceil: 0.87,
     walls: [[0.4, 0.25, 0.82, 0.25], [-0.1, 0.0, 0.43, 0.185], [0.79, 0.22, 1.1, 0.22]],
     cards: [{ u: [0.6, 1.02], v: [-0.02, 0.48], z: 2.7 }, { u: [0.475, 0.75], v: [-0.02, 0.4], z: 2.1 }] },
-  "deck-cedar": { aspect: 4 / 3, hfov: 60, h: 1.6, vy: 0.56, walk: 0.5, walls: [[-0.1, 0.43, 0.62, 0.44], [0.6, 0.47, 1.1, 0.47]],
+  "deck-cedar": { fx: 0.42, aspect: 4 / 3, hfov: 60, h: 1.6, vy: 0.56, walk: 0.5, walls: [[-0.1, 0.43, 0.62, 0.44], [0.6, 0.47, 1.1, 0.47]],
     cards: [{ u: [0.13, 0.4], v: [0.33, 0.75], c: 0.36 }, { u: [0.4, 0.98], v: [0.33, 1.02], c: 0.36 }, { u: [0.28, 0.66], v: [0.15, 0.62], c: 0.17 }] },
-  "paver-patio": { aspect: 1, hfov: 62, h: 1.6, vy: 0.755, walls: [[-0.1, 0.745, 1.1, 0.745], [0.88, 0.655, 1.1, 0.65]],
+  "paver-patio": { fx: 0.45, aspect: 1, hfov: 62, h: 1.6, vy: 0.755, walls: [[-0.1, 0.745, 1.1, 0.745], [0.88, 0.655, 1.1, 0.65]],
     cards: [{ u: [0.11, 0.68], v: [-0.02, 0.3], c: 0.03 }, { u: [0.74, 1.02], v: [-0.02, 0.29], c: 0.03 }] },
-  "lawn-hillside": { aspect: 1400 / 1054, hfov: 66, h: 1.6, vy: 0.69, walls: [[-0.1, 0.645, 1.1, 0.645]], cards: [] },
+  "lawn-hillside": { fx: 0.5, aspect: 1400 / 1054, hfov: 66, h: 1.6, vy: 0.69, walls: [[-0.1, 0.645, 1.1, 0.645]], cards: [] },
 };
 // Scroll stops. Consecutive stops in the same room keep walking instead of cross-fading.
 const STOPS = ["lawn-front", "kitchen-1", "great-room", "living-2", "bedroom", "wet-bar", "deck-cedar", "paver-patio", "lawn-hillside", "lawn-hillside"];
@@ -53,7 +54,7 @@ let renderer = null;
 try { renderer = new THREE.WebGLRenderer({ canvas: $("#scene"), antialias: true, powerPreference: "high-performance" }); } catch (e) { renderer = null; }
 if (!renderer) {
   document.body.classList.add("flat");
-  $$(".stop").forEach((c, i) => { if (i < N - 1) { const im = new Image(); im.src = IMG + STOPS[i] + ".jpg"; im.alt = ""; im.className = "flat-photo"; c.prepend(im); } });
+  $$(".stop").forEach((c, i) => { if (i < N - 1) { const im = new Image(); im.src = IMG + STOPS[i] + ".jpg"; im.alt = ""; im.className = "flat-photo"; im.style.objectPosition = `${(ROOMS[STOPS[i]].fx ?? 0.5) * 100}% 50%`; c.prepend(im); } });
   $("#loader").classList.add("done");
   throw new Error("WebGL unavailable, showing flat page");
 }
@@ -176,7 +177,11 @@ function setCamera(key, p, sway) {
   const r = ROOMS[key];
   const n = 0.05, inset = 0.94, Hp = r.Hp, Wp = r.Wp, A = state.W / state.H;
   let halfW, halfH, cx, cy;
-  if (A < r.aspect) { halfH = Hp / 2 * inset; halfW = halfH * A; const lim = Wp / 2 - halfW; cx = THREE.MathUtils.lerp(-lim, lim, 0.15 + 0.7 * smooth(0, 1, p)); cy = (0.5 - r.vy) * Hp; }
+  if (A < r.aspect) { // tall screen: a slice centred on the subject, drifting only slightly as you walk in
+    halfH = Hp / 2 * inset; halfW = halfH * A; const lim = Wp / 2 - halfW;
+    const focus = ((r.fx ?? 0.5) - 0.5) * Wp;
+    cx = THREE.MathUtils.clamp(focus + smooth(0, 1, p) * 0.1 * lim * sway, -lim, lim); // rests exactly on the subject
+    cy = (0.5 - r.vy) * Hp; }
   else { halfW = Wp / 2 * inset; halfH = halfW / A; const lim = Hp / 2 - halfH; cx = 0; cy = THREE.MathUtils.clamp(0, (0.5 - r.vy) * Hp - lim, (0.5 - r.vy) * Hp + lim); }
   camera.projectionMatrix.makePerspective((cx - halfW) * n, (cx + halfW) * n, (cy + halfH) * n, (cy - halfH) * n, n, 2000);
   camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
