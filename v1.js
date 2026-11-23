@@ -1,4 +1,4 @@
-import { initEstimate, ESTIMATE_HTML, GROUPS } from "./estimate.js?v=20261123h";
+import { initEstimate, ESTIMATE_HTML, GROUPS } from "./estimate.js?v=20261123i";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -10,8 +10,8 @@ form.innerHTML = ESTIMATE_HTML;
 const hero = $(".hero"), small = window.matchMedia("(max-width: 719px)");
 let heroSrc = "img/kitchen-1.jpg";
 // Where the subject sits across each photo (0 left, 1 right); phones show a tall slice centred there.
-const FOCUS = { "kitchen-1": 0.45, "kitchen-2": 0.35, "great-room": 0.6, "ph-additions": 0.5, "deck-cedar": 0.42,
-  "ph-exteriors": 0.5, "ph-repairs": 0.5, "lawn-hillside": 0.5, "paver-patio": 0.45 };
+const FOCUS = { "kitchen-1": 0.45, "kitchen-2": 0.35, "great-room": 0.6, "home-front": 0.5, "deck-cedar": 0.42,
+  "home-winter": 0.42, "stock-remodel": 0.55, "lawn-hillside": 0.5, "paver-patio": 0.45 };
 const pos = key => `${(FOCUS[key] ?? 0.5) * 100}% 50%`;
 function setHero(g) {
   if (!g.photo) return;

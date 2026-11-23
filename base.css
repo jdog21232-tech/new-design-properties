@@ -76,6 +76,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn-solid:hover { background: var(--accent-ink); }
 .btn-ghost { border-color: currentColor; }
 .btn-icon { width: var(--tap); padding: 0; }
+.btn-fb { background: #1877f2; color: #fff; }
+.btn-fb:hover { background: #0f63d6; }
 .btn svg { width: 20px; height: 20px; flex: none; }
 
 /* Chips */

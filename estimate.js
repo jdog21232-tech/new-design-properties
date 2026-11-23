@@ -10,14 +10,14 @@ export const CONTACTS = {
 // Everything we do, in 8 groups. Picking a group fills its list of specific jobs, then Continue.
 // Exactly 3 short jobs per group (one line each on a phone) so the panel keeps one height while people choose.
 // (All 22 services from newdesignproperties.com are covered.) photo = img/<photo>.jpg shown behind the hero when picked;
-// placeholder: true marks a free CC0 stand-in until New Design Properties sends their own photo.
+// placeholder: true marks a stock picture (from their current site) until New Design Properties sends their own photo.
 export const GROUPS = [
   { name: "Kitchens & baths", photo: "kitchen-2", team: "build", jobs: ["Kitchen remodels", "Bathroom remodels", "Cabinets, counters and tile"] },
   { name: "Remodeling & finish work", photo: "great-room", team: "build", jobs: ["Renovations and remodels", "Finish carpentry and built-ins", "Basements and framing"] },
-  { name: "Additions & new builds", photo: "ph-additions", placeholder: true, team: "build", jobs: ["Home additions and garages", "New homes and commercial builds", "Project management"] },
+  { name: "Additions & new builds", photo: "home-front", team: "build", jobs: ["Home additions and garages", "New homes and commercial builds", "Project management"] },
   { name: "Decks", photo: "deck-cedar", team: "build", jobs: ["Cedar and composite decks", "Stairs, railings and pergolas", "Deck repairs and rebuilds"] },
-  { name: "Exteriors & storm repair", photo: "ph-exteriors", placeholder: true, team: "build", jobs: ["Siding and windows", "Roofing", "Storm damage repair"] },
-  { name: "Repairs & handyman", photo: "ph-repairs", placeholder: true, team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
+  { name: "Exteriors & storm repair", photo: "home-winter", team: "build", jobs: ["Siding and windows", "Roofing", "Storm damage repair"] },
+  { name: "Repairs & handyman", photo: "stock-remodel", placeholder: true, team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
   { name: "Lawn care", photo: "lawn-hillside", team: "lawn", jobs: ["Lawn mowing and edging", "Bush trimming", "Seed and sodding"] },
   { name: "Landscaping & patios", photo: "paver-patio", team: "lawn", jobs: ["Landscaping and planting beds", "Paver patios", "Mulch and rock installs"] },
 ];

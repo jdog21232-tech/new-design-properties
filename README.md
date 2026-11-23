@@ -48,13 +48,15 @@ and the footer.
 - [ ] Owner reviews `privacy.html`.
 - [ ] Pick a free host and point their domain at it (client changes DNS at GoDaddy themselves).
 
-## Stand-in photos (CC0, replace with the client's own)
-Picking a service in the estimate swaps the hero photo. Three services have no New Design Properties photo yet, so
-they use public-domain (CC0) stand-ins, marked on the page with a faint "Photo needed" watermark and a yellow
-"Sample photo" note. Originals are in `_source/stock/` (kept off GitHub).
-- `img/ph-additions.jpg`: "House framing", Wikimedia Commons, CC0. https://commons.wikimedia.org/wiki/File:House_framing.jpg
-- `img/ph-exteriors.jpg`: "Houses with vinyl siding, South Side, 2022-08-17, 01", Wikimedia Commons, CC0. https://commons.wikimedia.org/wiki/File:Houses_with_vinyl_siding,_South_Side,_2022-08-17,_01.jpg
-- `img/ph-repairs.jpg`: "Construction-work-carpenter-tools (23697903934)", Wikimedia Commons, CC0. https://commons.wikimedia.org/wiki/File:Construction-work-carpenter-tools_(23697903934).jpg
-To swap one: drop the client's photo in `img/` (1400 px wide) and `img/sm/` (900 px), change `photo:` for that group in
-`estimate.js` and remove `placeholder: true`.
-
+## Photos
+Every image on newdesignproperties.com was collected on 2026-11-23 (home gallery 24, outdoor gallery 44, plus the
+service and about pages): 77 photos after removing duplicates. The New Design Lawn & Landscape Facebook page added 94
+more job photos (111 on the page; 9 were already on the website and 8 are graphics: logos, cover, banner, 3 promo
+flyers, avatar, kept in `_source/facebook/graphics`). All 171 are on `gallery.html` ("See all 171 photos" under Our
+work); `_source/fb_build.py` adds the Facebook set. Their own photos got the same photo-editor look as the rest of the site, uncropped. Rebuild with
+`_source/gallery_build.py` (kept off GitHub); data lives in `gallery-data.js`.
+- 162 are New Design jobs (68 from the website, 94 from Facebook). 9 are stock pictures the current site uses on its service pages (two are iStock 612 px
+  previews, one is from Pexels); they carry a yellow "Stock photo" mark and sit at the end of the gallery.
+- Hero photo per service: their own photos, except Repairs & handyman, which uses the current site's stock
+  remodeling picture with the faint "Photo needed" mark until they send their own.
+- Originals: `_source/photos-original/` (their photos) and `_source/site-stock/` (stock), both kept off GitHub.

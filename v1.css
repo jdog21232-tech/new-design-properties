@@ -11,6 +11,8 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .top-links a:not([href*="about"]):not([href$="#estimate"]) { display: none; }
 /* Small phones: the estimate is the first screen (and in the bottom bar), so Contact steps aside for the bigger logo */
 @media (max-width: 419px) { .top-links a[href$="#estimate"] { display: none; } }
+/* Smallest phones (320–359px): a slightly smaller logo so the call button stays on screen */
+@media (max-width: 359px) { .top { gap: var(--s3); } .top .brand { gap: var(--s2); } .top .brand svg { width: 44px; height: 21px; } .top .brand-text b { font-size: 20px; } .top .brand-text small { font-size: 11px; } .top-links { font-size: 15px; } }
 .top-links a { display: inline-flex; align-items: center; min-height: var(--tap); }
 .top-links a { text-decoration: none; }
 .top-links a[aria-current="page"] { color: var(--accent-ink); }
@@ -57,6 +59,9 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .rail-btn svg { width: 20px; height: 20px; }
 .rail-btn.prev { left: calc(var(--tap) / -2); }
 .rail-btn.next { right: calc(var(--tap) / -2); }
+
+.all-photos { width: 100%; margin-top: var(--s3); }
+@media (min-width: 720px) { .all-photos { width: auto; } }
 
 /* 3D walkthrough door: full-width banner under the photos on phones and tablets, the last quarter on desktop */
 .work-grid { display: grid; gap: var(--s3); }
@@ -109,7 +114,10 @@ mark.confirm { display: inline-block; padding: 2px var(--s2); border-radius: 4px
 .draft-note { flex-basis: 100%; }
 
 /* Sticky phone bar */
-.sticky { position: fixed; z-index: 45; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 2fr; gap: var(--s2); padding: var(--s3) var(--gutter) calc(var(--s3) + env(safe-area-inset-bottom)); background: rgba(255,255,255,.96); border-top: 1px solid var(--line); }
+/* Phone bar: Call · Facebook · Free estimate (estimate widest) */
+.sticky .btn { padding: 0 var(--s2); font-size: 16px; min-width: 0; }
+.sticky .btn-fb svg { width: 18px; height: 18px; margin-right: -2px; }
+.sticky { position: fixed; z-index: 45; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 1.25fr 1.5fr; gap: var(--s2); padding: var(--s3) var(--gutter) calc(var(--s3) + env(safe-area-inset-bottom)); background: rgba(255,255,255,.96); border-top: 1px solid var(--line); }
 
 /* ≥ 720: two columns in the hero, rail shows 2.5 */
 @media (min-width: 720px) {

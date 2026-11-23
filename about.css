@@ -47,8 +47,6 @@
 .a-cta-card h2 { font-size: 28px; }
 .a-cta-actions { display: flex; flex-wrap: wrap; gap: var(--s2); }
 .a-cta-actions .btn { flex: 1 1 auto; }
-.btn-fb { background: #1877f2; color: #fff; }
-.btn-fb:hover { background: #0f63d6; }
 
 @media (min-width: 720px) {
   .a-hero-copy { min-height: 400px; }
