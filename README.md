@@ -57,6 +57,12 @@ work); `_source/fb_build.py` adds the Facebook set. Their own photos got the sam
 `_source/gallery_build.py` (kept off GitHub); data lives in `gallery-data.js`.
 - 162 are New Design jobs (68 from the website, 94 from Facebook). 9 are stock pictures the current site uses on its service pages (two are iStock 612 px
   previews, one is from Pexels); they carry a yellow "Stock photo" mark and sit at the end of the gallery.
+- `gallery.html` shows the 10 best photos first ("Best of our work"), then every other photo in collapsed groups with
+  subtitles (Kitchens & interiors, Decks, Homes & exteriors, Lawn & landscape, Stock pictures) and an Expand all button.
+  The 10 are listed in `BEST` at the top of `gallery.js`.
+- Best-photo pass (2026-11-23): the striped lawn and the finished fire-pit patio (both from Facebook) now lead Lawn care
+  and Landscaping & patios on the home page and in the 3D walkthrough, which also opens on their professionally shot
+  home front. Five weaker photos in the Our work row were swapped for stronger ones.
 - Hero photo per service: their own photos, except Repairs & handyman, which uses the current site's stock
   remodeling picture with the faint "Photo needed" mark until they send their own.
 - Originals: `_source/photos-original/` (their photos) and `_source/site-stock/` (stock), both kept off GitHub.

@@ -4,7 +4,7 @@
 // from the exact point it was taken ("Tour Into the Picture"). Standing at that point you see the photo itself;
 // stepping forward gives true parallax. Scrolling walks you into one photo and on into the next.
 import * as THREE from "../vendor/three.module.min.js";
-import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123i";
+import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123m";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -20,6 +20,9 @@ const estimate = initEstimate(form, { onTeam: t => { document.body.dataset.mode 
 // walls: floor lines [u1, v1, u2, v2]. ceil: v of the ceiling line on the first wall. cards: near objects,
 // standing on the floor at contact v (c) or at a set depth in metres (z).
 const ROOMS = {
+  "home-front": { fx: 0.5, aspect: 1400 / 927, hfov: 70, h: 1.5, vy: 0.42, walls: [[-0.1, 0.345, 1.1, 0.345]], cards: [] },
+  "lawn-stripes": { fx: 0.55, aspect: 1280 / 964, hfov: 66, h: 1.5, vy: 0.78, walls: [[-0.1, 0.75, 1.1, 0.75]], cards: [] },
+  "patio-firepit": { fx: 0.62, aspect: 964 / 1280, hfov: 54, h: 1.5, vy: 0.86, walls: [[-0.1, 0.82, 1.1, 0.82]], cards: [] },
   "lawn-front": { fx: 0.3, aspect: 1, hfov: 62, h: 1.3, vy: 0.66, walls: [[-0.1, 0.58, 1.1, 0.58]],
     cards: [{ u: [0.765, 0.925], v: [0.12, 1.02], c: 0.17 }] },
   "kitchen-1": { fx: 0.45, aspect: 1400 / 927, hfov: 80, h: 1.4, vy: 0.47, ceil: 0.66,
@@ -45,7 +48,7 @@ const ROOMS = {
   "lawn-hillside": { fx: 0.5, aspect: 1400 / 1054, hfov: 66, h: 1.6, vy: 0.69, walls: [[-0.1, 0.645, 1.1, 0.645]], cards: [] },
 };
 // Scroll stops. Consecutive stops in the same room keep walking instead of cross-fading.
-const STOPS = ["lawn-front", "kitchen-1", "great-room", "living-2", "bedroom", "wet-bar", "deck-cedar", "paver-patio", "lawn-hillside", "lawn-hillside"];
+const STOPS = ["home-front", "kitchen-1", "great-room", "living-2", "bedroom", "wet-bar", "deck-cedar", "patio-firepit", "lawn-stripes", "lawn-stripes"];
 const N = STOPS.length;
 const DUST = new Set(["kitchen-1", "great-room", "living-2", "bedroom", "wet-bar"]);
 
@@ -237,7 +240,7 @@ function updateUI(s) {
   if (on !== lastOn) { lastOn = on; cards.forEach(c => { c.classList.remove("open"); c.querySelector(".more")?.setAttribute("aria-expanded", "false"); }); }
   railBtns.forEach((b, i) => { b.classList.toggle("on", i === on); b.classList.toggle("past", i < on); b.setAttribute("aria-current", i === on ? "step" : "false"); });
   dim.style.opacity = (smooth(N - 2, N - 1, s) * 0.55).toFixed(3);
-  const lawn = ["paver-patio", "lawn-hillside", "lawn-front"].includes(STOPS[on]) && on > 0;
+  const lawn = ["patio-firepit", "lawn-stripes"].includes(STOPS[on]) && on > 0;
   document.body.dataset.mode = lawn ? "lawn" : (form.querySelector("input[name=project]:checked")?.dataset.team || "build");
 }
 function resize() {

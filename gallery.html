@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="base.css?v=20261123k">
-<link rel="stylesheet" href="v1.css?v=20261123l">
-<link rel="stylesheet" href="gallery.css?v=20261123k">
+<link rel="stylesheet" href="base.css?v=20261123m">
+<link rel="stylesheet" href="v1.css?v=20261123m">
+<link rel="stylesheet" href="gallery.css?v=20261123o">
 </head>
 <body data-mode="build">
 
@@ -38,19 +38,14 @@
     <a class="g-back" href="./#work">‹ Back to home</a>
     <h1>Our work</h1>
     <p class="g-sub" id="g-count">Kitchens and baths, decks, homes, rock beds, retaining walls and lawns.</p>
-    <div class="seg g-seg" role="group" aria-label="Filter photos">
-      <button class="on" data-f="all" aria-pressed="true">All</button>
-      <button data-f="inside" aria-pressed="false">Inside</button>
-      <button data-f="decks" aria-pressed="false">Decks</button>
-      <button data-f="exteriors" aria-pressed="false">Exteriors</button>
-      <button data-f="yard" aria-pressed="false">Yard</button>
-    </div>
   </section>
 
-  <section class="wrap" aria-label="Photos">
-    <ul class="g-grid" id="g-grid"></ul>
-    <p class="confirm-note"><mark class="confirm">Stock photo</mark> marks pictures the current website uses on its service pages. They are not New Design jobs; swap in your own when you can.</p>
+  <!-- 10 best photos up front; everything else waits in collapsed groups so the page stays short -->
+  <section class="wrap g-best" aria-labelledby="best-h">
+    <div class="g-row-head"><h2 id="best-h">Best of our work</h2><button class="btn btn-ghost g-all" type="button" aria-expanded="false">Expand all</button></div>
+    <ul class="g-grid" id="g-best"></ul>
   </section>
+  <section class="wrap g-groups" id="g-groups" aria-label="More photos by type"></section>
 
   <section class="wrap g-cta">
     <div class="card a-cta-card">
@@ -81,6 +76,6 @@
   <p><span class="g-cap"></span> <span class="g-num"></span></p>
 </dialog>
 
-<script type="module" src="gallery.js?v=20261123k"></script>
+<script type="module" src="gallery.js?v=20261123n"></script>
 </body>
 </html>

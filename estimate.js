@@ -18,8 +18,8 @@ export const GROUPS = [
   { name: "Decks", photo: "deck-cedar", team: "build", jobs: ["Cedar and composite decks", "Stairs, railings and pergolas", "Deck repairs and rebuilds"] },
   { name: "Exteriors & storm repair", photo: "home-winter", team: "build", jobs: ["Siding and windows", "Roofing", "Storm damage repair"] },
   { name: "Repairs & handyman", photo: "stock-remodel", placeholder: true, team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
-  { name: "Lawn care", photo: "lawn-hillside", team: "lawn", jobs: ["Lawn mowing and edging", "Bush trimming", "Seed and sodding"] },
-  { name: "Landscaping & patios", photo: "paver-patio", team: "lawn", jobs: ["Landscaping and planting beds", "Paver patios", "Mulch and rock installs"] },
+  { name: "Lawn care", photo: "lawn-stripes", team: "lawn", jobs: ["Lawn mowing and edging", "Bush trimming", "Seed and sodding"] },
+  { name: "Landscaping & patios", photo: "patio-firepit", team: "lawn", jobs: ["Landscaping and planting beds", "Paver patios", "Mulch and rock installs"] },
 ];
 const esc = t => t.replace(/&/g, "&amp;");
 
