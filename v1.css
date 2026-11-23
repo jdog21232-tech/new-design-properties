@@ -9,10 +9,11 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .top .brand-text small { font-size: 13px; letter-spacing: .35em; margin-top: 4px; }
 .top-links { display: flex; gap: var(--s4); font-weight: 600; font-size: 16px; white-space: nowrap; }
 .top-links a:not([href*="about"]):not([href$="#estimate"]) { display: none; }
-/* Small phones: the estimate is already the first screen (and in the bottom bar), so Services steps aside for the bigger logo */
+/* Small phones: the estimate is the first screen (and in the bottom bar), so Contact steps aside for the bigger logo */
 @media (max-width: 419px) { .top-links a[href$="#estimate"] { display: none; } }
 .top-links a { display: inline-flex; align-items: center; min-height: var(--tap); }
 .top-links a { text-decoration: none; }
+.top-links a[aria-current="page"] { color: var(--accent-ink); }
 .top-call { padding: 0; width: var(--tap); }
 .top-call-num { display: none; }
 

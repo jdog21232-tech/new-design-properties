@@ -121,8 +121,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
 .fields label { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; font-size: 14px; font-weight: 600; }
 .fields .wide { grid-column: 1 / -1; }
-.fields input { width: 100%; font: inherit; font-size: 17px; height: var(--tap); padding: 0 var(--s3); border: 2px solid var(--line); border-radius: var(--r-ctl); background: #fff; min-width: 0; }
-.fields input:focus { border-color: var(--accent); outline: none; }
+.fields input, .fields textarea { width: 100%; font: inherit; font-size: 17px; height: var(--tap); padding: 0 var(--s3); border: 2px solid var(--line); border-radius: var(--r-ctl); background: #fff; min-width: 0; }
+.fields textarea { height: auto; min-height: 96px; padding: var(--s2) var(--s3); line-height: 1.4; resize: vertical; font-weight: 400; }
+.fields textarea::placeholder { color: var(--muted); }
+.fields .opt { font-weight: 400; color: var(--muted); }
+.fields input:focus, .fields textarea:focus { border-color: var(--accent); outline: none; }
 .fields .invalid { border-color: #b3261e; }
 .est-summary { margin: var(--s3) 0; padding: var(--s2) var(--s3); border-radius: var(--r-ctl); background: var(--paper); font-size: 14px; }
 .est-send { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }

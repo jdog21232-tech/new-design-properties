@@ -1,6 +1,6 @@
 /* Version 2: 3D walk-through. Fixed canvas, fixed chrome, one fixed card slot, scroll track drives the camera.
    All edges align to the same container as the header (max 1120 + gutters). */
-:root { --top: 112px; --z: 1; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --edge-z: max(var(--gutter), calc((100vw / var(--z) - var(--max)) / 2)); --card-w: 384px; }
+:root { --top: 144px; --z: 1; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --edge-z: max(var(--gutter), calc((100vw / var(--z) - var(--max)) / 2)); --card-w: 384px; }
 /* Every scroll lands on a whole stop: mandatory snap, one stop per gesture. */
 html { scroll-snap-type: y mandatory; }
 body { background: var(--ink); }
@@ -11,11 +11,22 @@ body { background: var(--ink); }
 .track section { height: 100vh; height: 100svh; scroll-snap-align: start; scroll-snap-stop: always; pointer-events: none; }
 .track section:last-child { height: 100vh; height: 100lvh; } /* the last stop is always reachable, toolbar up or down */
 
-/* Chrome: ribbon 32 + bar 64 + rooms 16 = 112 */
+/* Chrome on phones: ribbon 32 + bar 96 (logo and number, then Home · About us · Contact) + rooms 16 = 144 */
 .chrome { position: fixed; z-index: 30; inset: 0 0 auto 0; pointer-events: none; }
 .chrome > * { pointer-events: auto; }
 .bar { display: flex; align-items: center; gap: var(--s2); height: 64px; background: rgba(245,242,235,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); max-width: none; padding-left: var(--edge); padding-right: var(--edge); }
-.bar .brand { margin-right: auto; min-width: 0; }
+.bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 56px 40px; grid-template-areas: "brand call" "links links"; gap: 0 var(--s3); height: 96px; }
+.bar .brand { grid-area: brand; margin-right: auto; min-width: 0; }
+.bar-call { grid-area: call; min-height: 40px; padding: 0 var(--s4); font-size: 16px; }
+.bar-links { grid-area: links; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.bar-links a { display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none; color: var(--ink-2); }
+.bar-links a:hover { color: var(--accent-ink); }
+@media (min-width: 720px) {
+  :root { --top: 112px; }
+  .bar { grid-template-columns: auto 1fr auto; grid-template-rows: 64px; grid-template-areas: "brand links call"; height: 64px; column-gap: var(--s6); }
+  .bar-links { display: flex; justify-content: flex-end; gap: var(--s6); border-top: 0; }
+  .bar-links a { font-size: 16px; }
+}
 .bar .brand svg { width: 52px; height: 24px; }
 .bar .brand-text b { font-size: 22px; }
 .bar .brand-text small { font-size: 12px; letter-spacing: .35em; }
@@ -28,7 +39,7 @@ body { background: var(--ink); }
 .bar > * { flex-shrink: 0; }
 .bar .brand { flex-shrink: 1; }
 /* Small phones: the back arrow stands in for the roofline mark so nothing gets squeezed */
-@media (max-width: 400px) { .bar .brand svg { display: none; } .bar .brand-text b { font-size: 20px; } .bar .brand-text small { font-size: 11px; letter-spacing: .32em; } .bar .btn-solid { padding: 0 var(--s4); } }
+@media (max-width: 360px) { .bar .brand svg { display: none; } }
 .bar .btn { min-height: 40px; }
 .bar .btn-icon { width: 40px; }
 
@@ -124,3 +135,10 @@ body.flat .stop { position: static; opacity: 1; visibility: visible; transform: 
 body.flat .flat-photos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-top: var(--s3); }
 body.flat .flat-photo { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--r-ctl); margin-bottom: var(--s3); }
 body.flat .flat-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-ctl); }
+
+/* Logo size on tablets and up matches the main site header (after the base bar rules so it wins) */
+@media (min-width: 720px) {
+  .bar .brand svg { width: 64px; height: 30px; }
+  .bar .brand-text b { font-size: 28px; }
+  .bar .brand-text small { font-size: 15px; letter-spacing: .36em; }
+}

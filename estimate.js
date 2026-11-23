@@ -45,6 +45,8 @@ export function initEstimate(form, { onTeam, onGroup } = {}) {
   }
   function message() {
     const l = ["Hi, I'd like a free estimate.", `Project: ${val("project")}`, `Area: ${val("area")}`, `Timing: ${val("when")}`, `Name: ${val("name")}`, `Phone: ${val("phone")}`];
+    if (val("email")) l.push(`Email: ${val("email")}`);
+    if (val("comments")) l.push(`Comments: ${val("comments")}`);
     return l.join("\n");
   }
   function update() {
@@ -134,6 +136,8 @@ ${GROUPS.map(g => `    <label><input type="radio" name="project" value="${esc(g.
   <div class="fields">
     <label>Name<input name="name" autocomplete="name" required></label>
     <label>Phone<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required></label>
+    <label class="wide"><span>Email <span class="opt">(optional)</span></span><input name="email" type="email" autocomplete="email" inputmode="email"></label>
+    <label class="wide"><span>Comments <span class="opt">(optional)</span></span><textarea name="comments" rows="3" placeholder="Tell us about the project: size, ideas, best time to call"></textarea></label>
   </div>
   <p class="est-summary" aria-live="polite"></p>
   <div class="est-send">
