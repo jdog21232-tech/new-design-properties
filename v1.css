@@ -1,11 +1,16 @@
 /* Version 1: lead-first, short scroll. Everything snaps to the 4px grid and the one container edge. */
 body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bottom)); }
 
-/* Header: 64px */
-.top { display: flex; align-items: center; gap: var(--s4); height: 64px; }
-.top .brand { margin-right: auto; }
-.top-links { display: flex; gap: var(--s6); font-weight: 600; font-size: 15px; }
-.top-links a:not([href*="about"]):not([href="#estimate"]) { display: none; }
+/* Header: 72px on phones, 88px from 720 up. Logo text scales with it ("Properties" stays as wide as "New Design"). */
+.top { display: flex; align-items: center; gap: var(--s4); height: 72px; }
+.top .brand { margin-right: auto; gap: var(--s3); }
+.top .brand svg { width: 56px; height: 26px; }
+.top .brand-text b { font-size: 24px; white-space: nowrap; }
+.top .brand-text small { font-size: 13px; letter-spacing: .35em; margin-top: 4px; }
+.top-links { display: flex; gap: var(--s4); font-weight: 600; font-size: 16px; white-space: nowrap; }
+.top-links a:not([href*="about"]):not([href$="#estimate"]) { display: none; }
+/* Small phones: the estimate is already the first screen (and in the bottom bar), so Services steps aside for the bigger logo */
+@media (max-width: 419px) { .top-links a[href$="#estimate"] { display: none; } }
 .top-links a { display: inline-flex; align-items: center; min-height: var(--tap); }
 .top-links a { text-decoration: none; }
 .top-call { padding: 0; width: var(--tap); }
@@ -43,6 +48,23 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .rail-btn svg { width: 20px; height: 20px; }
 .rail-btn.prev { left: calc(var(--tap) / -2); }
 .rail-btn.next { right: calc(var(--tap) / -2); }
+
+/* 3D walkthrough door: full-width banner under the photos on phones and tablets, the last quarter on desktop */
+.work-grid { display: grid; gap: var(--s3); }
+.rail-wrap { min-width: 0; }
+.tour { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: var(--s3); min-height: 208px; padding: var(--pad); border-radius: var(--r-card); overflow: hidden; background: var(--ink); color: #fff; text-decoration: none; }
+.tour img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; animation: tour-drift 16s ease-in-out infinite alternate; }
+.tour::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,12,14,.10) 0%, rgba(10,12,14,.55) 45%, rgba(10,12,14,.88) 100%); }
+.tour-badge { position: absolute; top: var(--pad); left: var(--pad); display: inline-flex; align-items: center; height: 28px; padding: 0 var(--s3); border-radius: var(--r-ctl); background: var(--cedar); font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: .06em; }
+.tour-copy { display: flex; flex-direction: column; gap: var(--s1); }
+.tour-copy b { font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.05; text-transform: uppercase; letter-spacing: .02em; }
+.tour-copy small { font-size: 15px; color: #e9e6df; }
+.tour-go { display: inline-flex; align-items: center; gap: var(--s2); min-height: 40px; padding: 0 var(--s4); border-radius: var(--r-ctl); background: #fff; color: var(--ink); font-weight: 700; font-size: 15px; transition: background-color .2s ease, color .2s ease; }
+.tour-go svg { width: 18px; height: 18px; transition: transform .2s ease; }
+.tour:hover .tour-go { background: var(--cedar); color: #fff; }
+.tour:hover .tour-go svg { transform: translateX(3px); }
+@keyframes tour-drift { from { transform: scale(1.02); } to { transform: scale(1.12) translate(-2%, -1%); } }
+@media (prefers-reduced-motion: reduce) { .tour img { animation: none; } }
 
 
 /* Contact: four equal cards (two per row on phones), then the licenses in quarters (1 + 1 + 2) */
@@ -82,9 +104,18 @@ mark.confirm { display: inline-block; padding: 2px var(--s2); border-radius: 4px
 
 /* ≥ 720: two columns in the hero, rail shows 2.5 */
 @media (min-width: 720px) {
-  .top-links a:not([href*="about"]) { display: inline-flex; }
-  .top-call { width: auto; padding: 0 var(--s4); }
-  .top-call-num { display: inline; }
+  .top { height: 88px; }
+  .top .brand svg { width: 68px; height: 32px; }
+  .top .brand-text b { font-size: 30px; }
+  .top .brand-text small { font-size: 16px; letter-spacing: .36em; }
+  .top-links { gap: var(--s5); font-size: 17px; }
+  .top-links a:not([href*="about"]):not([href$="v2/"]) { display: inline-flex; }
+  .top-call { width: var(--tap); padding: 0; }
+  .top-call-num { display: none; }
+  .tour { flex-direction: row; align-items: flex-end; justify-content: space-between; min-height: 200px; }
+  .tour-copy b { font-size: 32px; }
+}
+@media (min-width: 720px) {
   .hero { padding: var(--s12) 0; }
   .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10,12,14,.82), rgba(10,12,14,.35)); }
   .hero-grid { grid-template-columns: 1fr 1fr; align-items: center; gap: var(--s6); }
@@ -103,8 +134,20 @@ mark.confirm { display: inline-block; padding: 2px var(--s2); border-radius: 4px
   .sticky { display: none; }
   .hero-grid { grid-template-columns: 2fr 2fr; }
   .hero-copy h1 { font-size: 80px; }
-  .rail { --cols: 4; margin: 0; padding: 0; scroll-padding: 0; }
+  .top-links { gap: var(--s6); }
+  .top-links a[href$="v2/"]:not([href*="about"]) { display: inline-flex; }
+  .top-call { width: auto; padding: 0 var(--s4); }
+  .top-call-num { display: inline; }
+  /* Our work: four equal columns, photos take three, the walkthrough door takes the fourth (same size as a photo) */
+  .work-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
+  .rail-wrap { grid-column: span 3; }
+  .rail { --cols: 3; margin: 0; padding: 0; scroll-padding: 0; }
   .rail-btn { display: grid; }
+  .rail-btn.prev { left: var(--s3); }
+  .rail-btn.next { right: var(--s3); }
+  .tour { flex-direction: column; align-items: flex-start; justify-content: flex-end; min-height: 0; aspect-ratio: 4 / 3; }
+  .tour-copy b { font-size: 26px; }
+  .tour-copy small { font-size: 14px; }
   .quarters { grid-template-columns: repeat(4, 1fr); }
   .draft-note { flex-basis: auto; }
 }
