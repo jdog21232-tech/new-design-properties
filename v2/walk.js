@@ -4,7 +4,7 @@
 // from the exact point it was taken ("Tour Into the Picture"). Standing at that point you see the photo itself;
 // stepping forward gives true parallax. Scrolling walks you into one photo and on into the next.
 import * as THREE from "../vendor/three.module.min.js";
-import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123a";
+import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123b";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -248,7 +248,7 @@ function resize() {
 let last = performance.now();
 function tick(now = performance.now()) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now; clock += dt;
-  const k = reduce || document.hidden ? 1 : 1 - Math.pow(0.0015, dt);
+  const k = reduce || document.hidden ? 1 : 1 - Math.pow(0.0015, dt * 0.5); // half speed: an unhurried walk between stops
   sCur += (sTarget - sCur) * k; if (Math.abs(sTarget - sCur) < 1e-4) sCur = sTarget;
   pointerS.lerp(pointer, 1 - Math.pow(0.02, dt));
   for (const key in ROOMS) if (ROOMS[key].group) ROOMS[key].group.visible = false;

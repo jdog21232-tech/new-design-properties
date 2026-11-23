@@ -7,18 +7,19 @@ export const CONTACTS = {
   lawn:    { label: "Lawn & Landscape, SD", phone: "+16057281478", show: "605-728-1478", email: "Joshgenser@gmail.com" },
 };
 
-// Everything we do, in 8 groups. Picking a group opens its list of specific jobs, then Continue.
+// Everything we do, in 8 groups. Picking a group fills its list of specific jobs, then Continue.
+// Exactly 3 short jobs per group (one line each on a phone) so the panel keeps one height while people choose.
 // (All 22 services from newdesignproperties.com are covered.) photo = img/<photo>.jpg shown behind the hero when picked;
 // placeholder: true marks a free CC0 stand-in until New Design Properties sends their own photo.
 export const GROUPS = [
-  { name: "Kitchens & baths", photo: "kitchen-2", team: "build", jobs: ["Kitchen remodels", "Bathroom remodels", "Cabinets, counters and tile", "Plumbing and lighting fixtures"] },
-  { name: "Remodeling & finish work", photo: "great-room", team: "build", jobs: ["Renovation and remodeling", "Finish carpentry, trim and built-ins", "Framing", "Basements and whole floors"] },
-  { name: "Additions & new builds", photo: "ph-additions", placeholder: true, team: "build", jobs: ["Home additions", "New construction", "Garages", "Commercial construction", "Project management"] },
+  { name: "Kitchens & baths", photo: "kitchen-2", team: "build", jobs: ["Kitchen remodels", "Bathroom remodels", "Cabinets, counters and tile"] },
+  { name: "Remodeling & finish work", photo: "great-room", team: "build", jobs: ["Renovations and remodels", "Finish carpentry and built-ins", "Basements and framing"] },
+  { name: "Additions & new builds", photo: "ph-additions", placeholder: true, team: "build", jobs: ["Home additions and garages", "New homes and commercial builds", "Project management"] },
   { name: "Decks", photo: "deck-cedar", team: "build", jobs: ["Cedar and composite decks", "Stairs, railings and pergolas", "Deck repairs and rebuilds"] },
-  { name: "Exteriors & storm repair", photo: "ph-exteriors", placeholder: true, team: "build", jobs: ["Siding", "Windows", "Roofing", "Storm damage repair"] },
+  { name: "Exteriors & storm repair", photo: "ph-exteriors", placeholder: true, team: "build", jobs: ["Siding and windows", "Roofing", "Storm damage repair"] },
   { name: "Repairs & handyman", photo: "ph-repairs", placeholder: true, team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
-  { name: "Lawn care", photo: "lawn-hillside", team: "lawn", jobs: ["Lawn mowing", "Bush trimming", "Seed and sodding", "Edging"] },
-  { name: "Landscaping & patios", photo: "paver-patio", team: "lawn", jobs: ["Landscaping", "Paver patios", "Mulch and rock installs", "Planting beds"] },
+  { name: "Lawn care", photo: "lawn-hillside", team: "lawn", jobs: ["Lawn mowing and edging", "Bush trimming", "Seed and sodding"] },
+  { name: "Landscaping & patios", photo: "paver-patio", team: "lawn", jobs: ["Landscaping and planting beds", "Paver patios", "Mulch and rock installs"] },
 ];
 const esc = t => t.replace(/&/g, "&amp;");
 
@@ -55,11 +56,11 @@ export function initEstimate(form, { onTeam, onGroup } = {}) {
   const detail = $(".est-detail");
   function openGroup(value) {
     const g = GROUPS.find(x => x.name === value);
-    if (!g) { detail.hidden = true; return; }
+    if (!g) return;
     detail.querySelector(".est-detail-title").textContent = g.name + " includes";
     detail.querySelector(".est-jobs").replaceChildren(...g.jobs.map(j => { const li = document.createElement("li"); li.textContent = j; return li; }));
     detail.dataset.team = g.team;
-    detail.hidden = false;
+    detail.querySelector(".est-next").disabled = false;
     if (onGroup) onGroup(g);
   }
   form.addEventListener("change", e => {
@@ -106,10 +107,10 @@ export const ESTIMATE_HTML = `
   <div class="tiles">
 ${GROUPS.map(g => `    <label><input type="radio" name="project" value="${esc(g.name)}" data-team="${g.team}"><span>${esc(g.name)}</span></label>`).join("\n")}
   </div>
-  <div class="est-detail" hidden aria-live="polite">
-    <p class="est-detail-title"></p>
-    <ul class="est-jobs"></ul>
-    <button type="button" class="btn btn-solid est-next">Continue</button>
+  <div class="est-detail" aria-live="polite">
+    <p class="est-detail-title">What's included</p>
+    <ul class="est-jobs"><li class="ghost"><i></i></li><li class="ghost"><i></i></li><li class="ghost"><i></i></li></ul>
+    <button type="button" class="btn btn-solid est-next" disabled>Continue</button>
   </div>
 </fieldset>
 <fieldset class="est-step" data-step="2" hidden>

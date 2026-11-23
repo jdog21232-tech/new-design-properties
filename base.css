@@ -89,13 +89,20 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .est-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
 .est-head h2 { font-size: 24px; }
 .est-kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 2px; }
-.est-detail { margin-top: var(--s3); padding: var(--s3) var(--s4) var(--s4); border-radius: var(--r-ctl); background: color-mix(in srgb, var(--accent) 7%, #fff); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); animation: est-open .25s ease; }
+.est-detail { margin-top: var(--s3); padding: var(--s3) var(--s4) var(--s4); border-radius: var(--r-ctl); background: color-mix(in srgb, var(--accent) 7%, #fff); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); }
 .est-detail-title { font-weight: 700; font-size: 15px; margin-bottom: var(--s2); }
 .est-jobs { list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: var(--s1); }
 .est-jobs li { position: relative; padding-left: var(--s5); font-size: 15px; line-height: 1.35; }
 .est-jobs li::before { content: ""; position: absolute; left: 0; top: .35em; width: .65em; height: .65em; border-radius: 3px; background: var(--accent); }
+.est-jobs li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Before a pick: three soft bars hold the same height as the three real lines */
+.est-jobs li.ghost::before { background: var(--line); }
+.est-jobs li.ghost i { display: inline-block; width: 62%; height: .7em; border-radius: 4px; background: var(--line); vertical-align: middle; }
+.est-jobs li.ghost:nth-child(2) i { width: 48%; }
+.est-jobs li.ghost:nth-child(3) i { width: 56%; }
 .est-next { width: 100%; }
-@keyframes est-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.est-next:disabled { opacity: .45; cursor: default; }
+.est-next:disabled:active { transform: none; }
 .est-count { font-size: 13px; color: var(--muted); white-space: nowrap; }
 .est-progress { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s1); padding: 0; margin: 0 0 var(--s4); }
 .est-progress li { height: 4px; border-radius: 2px; background: var(--line); transition: background-color .3s ease; }

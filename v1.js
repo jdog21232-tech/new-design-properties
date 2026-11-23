@@ -1,4 +1,4 @@
-import { initEstimate, ESTIMATE_HTML, GROUPS } from "./estimate.js?v=20261123a";
+import { initEstimate, ESTIMATE_HTML, GROUPS } from "./estimate.js?v=20261123b";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
