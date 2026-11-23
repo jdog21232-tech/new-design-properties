@@ -7,6 +7,20 @@ export const CONTACTS = {
   lawn:    { label: "Lawn & Landscape, SD", phone: "+16057281478", show: "605-728-1478", email: "Joshgenser@gmail.com" },
 };
 
+// Everything we do, in 8 groups. Picking a group opens its list of specific jobs, then Continue.
+// (All 22 services from newdesignproperties.com are covered.)
+export const GROUPS = [
+  { name: "Kitchens & baths", team: "build", jobs: ["Kitchen remodels", "Bathroom remodels", "Cabinets, counters and tile", "Plumbing and lighting fixtures"] },
+  { name: "Remodeling & finish work", team: "build", jobs: ["Renovation and remodeling", "Finish carpentry, trim and built-ins", "Framing", "Basements and whole floors"] },
+  { name: "Additions & new builds", team: "build", jobs: ["Home additions", "New construction", "Garages", "Commercial construction", "Project management"] },
+  { name: "Decks", team: "build", jobs: ["Cedar and composite decks", "Stairs, railings and pergolas", "Deck repairs and rebuilds"] },
+  { name: "Exteriors & storm repair", team: "build", jobs: ["Siding", "Windows", "Roofing", "Storm damage repair"] },
+  { name: "Repairs & handyman", team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
+  { name: "Lawn care", team: "lawn", jobs: ["Lawn mowing", "Bush trimming", "Seed and sodding", "Edging"] },
+  { name: "Landscaping & patios", team: "lawn", jobs: ["Landscaping", "Paver patios", "Mulch and rock installs", "Planting beds"] },
+];
+const esc = t => t.replace(/&/g, "&amp;");
+
 export function initEstimate(form, { onTeam } = {}) {
   const $ = s => form.querySelector(s);
   const steps = [...form.querySelectorAll(".est-step")];
@@ -37,12 +51,22 @@ export function initEstimate(form, { onTeam } = {}) {
     mail.href = `mailto:${c.email}?subject=${encodeURIComponent("Free estimate: " + val("project"))}&body=${body}`;
   }
 
+  const detail = $(".est-detail");
+  function openGroup(value) {
+    const g = GROUPS.find(x => x.name === value);
+    if (!g) { detail.hidden = true; return; }
+    detail.querySelector(".est-detail-title").textContent = g.name + " includes";
+    detail.querySelector(".est-jobs").replaceChildren(...g.jobs.map(j => { const li = document.createElement("li"); li.textContent = j; return li; }));
+    detail.dataset.team = g.team;
+    detail.hidden = false;
+  }
   form.addEventListener("change", e => {
     const t = e.target;
     if (t.type !== "radio") return;
-    if (t.name === "project" && onTeam) onTeam(t.dataset.team);
+    if (t.name === "project") { if (onTeam) onTeam(t.dataset.team); openGroup(t.value); return; }
     setTimeout(() => show(Math.min(cur + 1, steps.length)), 160);
   });
+  $(".est-next").addEventListener("click", () => show(2));
   form.addEventListener("input", e => {
     if (e.target.value && e.target.value.trim()) { e.target.classList.remove("invalid"); e.target.removeAttribute("aria-invalid"); }
     update();
@@ -66,24 +90,24 @@ export function initEstimate(form, { onTeam } = {}) {
       if (!r) return show(1);
       r.checked = true;
       if (onTeam) onTeam(r.dataset.team);
+      openGroup(value);
       show(2);
     },
   };
 }
 
 export const ESTIMATE_HTML = `
-<div class="est-head"><h2>Free estimate</h2><span class="est-count">Step 1 of 4</span></div>
+<div class="est-head"><div><p class="est-kicker">Everything we do</p><h2>Free estimate</h2></div><span class="est-count">Step 1 of 4</span></div>
 <ol class="est-progress" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
 <fieldset class="est-step" data-step="1">
-  <legend>What's the project?</legend>
+  <legend>What do you need?</legend>
   <div class="tiles">
-    <label><input type="radio" name="project" value="Bathroom or kitchen" data-team="build"><span>Bath or kitchen</span></label>
-    <label><input type="radio" name="project" value="Deck or patio" data-team="build"><span>Deck or patio</span></label>
-    <label><input type="radio" name="project" value="Addition or new build" data-team="build"><span>Addition or new build</span></label>
-    <label><input type="radio" name="project" value="Siding, windows or roof" data-team="build"><span>Siding, windows, roof</span></label>
-    <label><input type="radio" name="project" value="Repair or handyman job" data-team="build"><span>Repair or handyman</span></label>
-    <label><input type="radio" name="project" value="Remodel or renovation" data-team="build"><span>Remodel or renovation</span></label>
-    <label><input type="radio" name="project" value="Lawn or landscaping" data-team="lawn"><span>Lawn or landscaping</span></label>
+${GROUPS.map(g => `    <label><input type="radio" name="project" value="${esc(g.name)}" data-team="${g.team}"><span>${esc(g.name)}</span></label>`).join("\n")}
+  </div>
+  <div class="est-detail" hidden aria-live="polite">
+    <p class="est-detail-title"></p>
+    <ul class="est-jobs"></ul>
+    <button type="button" class="btn btn-solid est-next">Continue</button>
   </div>
 </fieldset>
 <fieldset class="est-step" data-step="2" hidden>

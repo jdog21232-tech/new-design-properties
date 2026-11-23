@@ -88,6 +88,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Estimate flow (shared) */
 .est-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
 .est-head h2 { font-size: 24px; }
+.est-kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 2px; }
+.est-detail { margin-top: var(--s3); padding: var(--s3) var(--s4) var(--s4); border-radius: var(--r-ctl); background: color-mix(in srgb, var(--accent) 7%, #fff); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); animation: est-open .25s ease; }
+.est-detail-title { font-weight: 700; font-size: 15px; margin-bottom: var(--s2); }
+.est-jobs { list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: var(--s1); }
+.est-jobs li { position: relative; padding-left: var(--s5); font-size: 15px; line-height: 1.35; }
+.est-jobs li::before { content: ""; position: absolute; left: 0; top: .35em; width: .65em; height: .65em; border-radius: 3px; background: var(--accent); }
+.est-next { width: 100%; }
+@keyframes est-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 .est-count { font-size: 13px; color: var(--muted); white-space: nowrap; }
 .est-progress { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s1); padding: 0; margin: 0 0 var(--s4); }
 .est-progress li { height: 4px; border-radius: 2px; background: var(--line); transition: background-color .3s ease; }
@@ -102,6 +110,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tiles input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
 .tiles-1 { grid-template-columns: 1fr; }
 .tiles label:last-child:nth-child(odd) { grid-column: 1 / -1; } /* odd count: last tile spans the row */
+.tiles span { line-height: 1.15; }
 .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
 .fields label { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; font-size: 14px; font-weight: 600; }
 .fields .wide { grid-column: 1 / -1; }

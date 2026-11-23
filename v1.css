@@ -5,53 +5,11 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .top { display: flex; align-items: center; gap: var(--s4); height: 64px; }
 .top .brand { margin-right: auto; }
 .top-links { display: flex; gap: var(--s6); font-weight: 600; font-size: 15px; }
-.top-links a:not([href*="about"]) { display: none; }
+.top-links a:not([href*="about"]):not([href="#estimate"]) { display: none; }
 .top-links a { display: inline-flex; align-items: center; min-height: var(--tap); }
 .top-links a { text-decoration: none; }
 .top-call { padding: 0; width: var(--tap); }
 .top-call-num { display: none; }
-
-/* Everything we do: one tile per service, each opens a quick rundown + inquiry form.
-   Phones: two swipeable rows. Tablet: auto columns. Desktop: build 5 x 3, lawn 7 x 1, all tiles 56px tall. */
-.svc-band { background: var(--surface); border-bottom: 1px solid var(--line); padding: var(--s5) 0 var(--s6); }
-.svc-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s1) var(--s4); margin-bottom: var(--s4); }
-.svc-head h2 { font-size: 28px; }
-.svc-head p { font-size: 14px; color: var(--muted); }
-.svc-group + .svc-group { margin-top: var(--s4); }
-.svc-group h3 { display: flex; align-items: center; gap: var(--s2); margin-bottom: var(--s2); font-family: var(--body); text-transform: none; font-size: 13px; font-weight: 700; letter-spacing: .06em; color: var(--ink-2); }
-.svc-group h3 span { display: inline-grid; place-items: center; min-width: 24px; height: 20px; padding: 0 var(--s1); border-radius: 999px; background: var(--paper); font-size: 12px; color: var(--muted); }
-.svc-grid { list-style: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, var(--tap)); grid-auto-columns: 176px; gap: var(--s2); overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 var(--gutter); scrollbar-width: none; }
-.svc-grid::-webkit-scrollbar { display: none; }
-.svc-grid li { scroll-snap-align: start; min-width: 0; }
-.svc { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); width: 100%; height: 100%; padding: 0 var(--s2) 0 var(--s3); border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--paper); font-size: 15px; font-weight: 600; line-height: 1.15; text-align: left; transition: border-color .2s ease, background-color .2s ease, transform .15s ease; }
-.svc span { min-width: 0; }
-.svc svg { flex: none; width: 24px; height: 24px; padding: 4px; border-radius: 50%; background: var(--cedar); color: #fff; }
-.svc-lawn .svc svg { background: var(--green); }
-.svc:hover { border-color: var(--cedar); background: #fff; }
-.svc-lawn .svc:hover { border-color: var(--green); }
-.svc:active { transform: scale(.98); }
-
-/* Service pop-up */
-.svc-modal { width: min(560px, calc(100vw - 2 * var(--gutter))); max-height: calc(100dvh - 2 * var(--gutter)); padding: var(--s6) var(--pad) var(--pad); border: 0; border-radius: var(--r-card); background: var(--surface); color: var(--ink); box-shadow: 0 24px 64px rgba(10,12,14,.35); overflow: auto; }
-.svc-modal::backdrop { background: rgba(10,12,14,.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
-.svc-close-form { position: absolute; top: var(--s3); right: var(--s3); margin: 0; }
-.svc-close { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--paper); font-size: 24px; line-height: 1; }
-.svc-tag { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--cedar-ink); margin-bottom: var(--s1); }
-.svc-modal[data-team="lawn"] { --accent: var(--green); --accent-ink: var(--green-ink); }
-.svc-modal[data-team="lawn"] .svc-tag { color: var(--green-ink); }
-.svc-modal h2 { font-size: 32px; padding-right: var(--s12); margin-bottom: var(--s3); }
-.svc-points { list-style: none; margin: 0 0 var(--s5); padding: 0; display: grid; gap: var(--s2); }
-.svc-points li { position: relative; padding-left: var(--s6); font-size: 16px; }
-.svc-points li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 12px; border-radius: 3px; background: var(--accent); }
-.svc-form { border-top: 1px solid var(--line); padding-top: var(--s4); }
-.svc-form h3 { font-size: 18px; margin-bottom: var(--s3); }
-.svc-form em { font-weight: 400; color: var(--muted); }
-.svc-form select, .svc-form textarea { width: 100%; font: inherit; font-size: 17px; padding: 0 var(--s3); border: 2px solid var(--line); border-radius: var(--r-ctl); background: #fff; min-width: 0; }
-.svc-form select { height: var(--tap); }
-.svc-form textarea { padding: var(--s3); resize: vertical; }
-.svc-form select:focus, .svc-form textarea:focus { border-color: var(--accent); outline: none; }
-.svc-to { margin: var(--s3) 0; font-size: 13px; font-weight: 600; color: var(--ink-2); }
-.svc-form .fine { margin-top: var(--s2); }
 
 /* Hero: photo band sized by its own content; the estimate card overlaps its bottom 24px */
 .hero { position: relative; isolation: isolate; padding-bottom: var(--s6); }
@@ -135,8 +93,6 @@ mark.confirm { display: inline-block; padding: 2px var(--s2); border-radius: 4px
   .hero-copy h1 { font-size: 64px; }
   .estimate { margin-top: 0; }
   .rail { --cols: 2.5; }
-  .svc-grid { grid-auto-flow: row; grid-template-rows: none; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); margin: 0; padding: 0; overflow: visible; }
-  .svc-grid li { height: var(--tap); }
   .call b, .hours b { font-size: 24px; }
   .licenses { grid-template-columns: 1fr 1fr 2fr; }
   .lic-note { grid-column: auto; }
@@ -150,9 +106,5 @@ mark.confirm { display: inline-block; padding: 2px var(--s2); border-radius: 4px
   .rail { --cols: 4; margin: 0; padding: 0; scroll-padding: 0; }
   .rail-btn { display: grid; }
   .quarters { grid-template-columns: repeat(4, 1fr); }
-  .svc-grid li { height: 56px; }
-  .svc-build .svc-grid { grid-template-columns: repeat(5, 1fr); }
-  .svc-lawn .svc-grid { grid-template-columns: repeat(7, 1fr); }
-  .svc-lawn .svc { font-size: 14px; }
   .draft-note { flex-basis: auto; }
 }
