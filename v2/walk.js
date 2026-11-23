@@ -4,7 +4,7 @@
 // from the exact point it was taken ("Tour Into the Picture"). Standing at that point you see the photo itself;
 // stepping forward gives true parallax. Scrolling walks you into one photo and on into the next.
 import * as THREE from "../vendor/three.module.min.js";
-import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261122g";
+import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261122h";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -127,7 +127,7 @@ function buildRoom(key) {
   // how far we can walk in without passing through a near object in the middle of the view
   const centreCards = r.cards.filter(c => c.u[0] < 0.7 && c.u[1] > 0.3).map(c => c.z ?? r.h / ((r.vy - c.c) * r.Hp));
   const wallZ = Math.min(...r.walls.map(([u1, v1, u2, v2]) => Math.min(-floorPt(r, u1, v1).z, -floorPt(r, u2, v2).z)));
-  r.travel = Math.min(centreCards.length ? 0.62 * Math.min(...centreCards) : 99, 0.32 * wallZ, 3.2) * (r.walk ?? 1); // lower-res photos walk less
+  r.travel = Math.min(centreCards.length ? 0.62 * Math.min(...centreCards) : 99, 0.32 * wallZ, 3.2) * 0.8 * (r.walk ?? 1); // lower-res photos walk less
   if (DUST.has(key)) g.add(dust(r, top));
   r.group = g; r.mat = mat; r.tex = tex;
   return g;
@@ -165,7 +165,7 @@ fadeScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), fadeMat));
 
 // ------------------------------------------------------------------ camera inside a room
 const state = { W: 1, H: 1 };
-const HOLD = 0.28; // where each stop rests, as a fraction of the walk into that photo
+const HOLD = 0; // each stop rests exactly where the photo was taken, so it shows the real photo, seam-free
 const smooth = (a, b, x) => { const t = THREE.MathUtils.clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const pointer = new THREE.Vector2(), pointerS = new THREE.Vector2();
 let clock = 0;
@@ -181,8 +181,8 @@ function setCamera(key, p, sway) {
   camera.projectionMatrix.makePerspective((cx - halfW) * n, (cx + halfW) * n, (cy + halfH) * n, (cy - halfH) * n, n, 2000);
   camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
   const L = r.travel, breathe = reduce ? 0 : 0.012 * L;
-  const x = sway * L * 0.1 * p + pointerS.x * 0.05 * L * (0.3 + p) + Math.sin(clock * 0.5) * breathe;
-  const y = -pointerS.y * 0.03 * L * (0.3 + p) + Math.sin(clock * 0.37) * breathe * 0.6;
+  const x = (sway * L * 0.1 + pointerS.x * 0.05 * L + Math.sin(clock * 0.5) * breathe) * p;
+  const y = (-pointerS.y * 0.03 * L + Math.sin(clock * 0.37) * breathe * 0.6) * p;
   camera.position.set(x, y, -L * p);
   camera.rotation.set(0, 0, 0);
   camera.updateMatrixWorld(true);
@@ -199,7 +199,7 @@ function draw(s) {
     return { a: 0, room: A };
   }
   const pA = THREE.MathUtils.lerp(HOLD, 1, smooth(0, 0.72, f));
-  const pB = THREE.MathUtils.lerp(0, HOLD, smooth(0.42, 1, f));
+  const pB = 0; // the next photo fades in exactly as it was taken
   const alpha = smooth(0.4, 0.74, f);
   ROOMS[A].group.visible = true; showDust(A, true); setCamera(A, pA, i % 2 ? 1 : -1); renderer.render(scenes[A], camera);
   if (alpha > 0.001) {
@@ -232,6 +232,8 @@ function updateUI(s) {
 }
 function resize() {
   state.W = window.innerWidth; state.H = window.innerHeight;
+  const z = state.W >= 1024 ? Math.min(2.8, Math.max(1, Math.min(state.W / 1440, state.H / 860))) : 1;
+  document.documentElement.style.setProperty("--z", z.toFixed(4));
   renderer.setSize(state.W, state.H, false);
   const pr = renderer.getPixelRatio();
   if (rt) rt.dispose();

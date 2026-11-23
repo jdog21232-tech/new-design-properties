@@ -1,6 +1,6 @@
 /* Version 2: 3D walk-through. Fixed canvas, fixed chrome, one fixed card slot, scroll track drives the camera.
    All edges align to the same container as the header (max 1120 + gutters). */
-:root { --top: 104px; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --card-w: 384px; }
+:root { --top: 104px; --z: 1; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --edge-z: max(var(--gutter), calc((100vw / var(--z) - var(--max)) / 2)); --card-w: 384px; }
 html { scroll-snap-type: y proximity; }
 body { background: var(--ink); }
 
@@ -54,21 +54,23 @@ body { background: var(--ink); }
 
 /* Desktop: card in the left quarter, labelled room rail on the right edge */
 @media (min-width: 1024px) {
-  :root { --top: 88px; }
-  .cards { left: var(--edge); right: auto; width: var(--card-w); top: var(--top); bottom: 0; display: flex; align-items: center; }
+  /* Designed at 1440px wide. On wider screens the header, card and dots are zoomed by --z
+     (screen width / 1440, set in walk.js), so a 4K monitor sees the same layout, just larger. */
+  :root { --top: 88px; --card-w: 460px; --pad: 28px; }
+  .ribbon, .bar, .rooms, .cards { zoom: var(--z, 1); }
+  .bar { padding-left: var(--edge-z); padding-right: var(--edge-z); }
+  .cards { left: var(--edge-z); right: auto; width: var(--card-w); top: var(--top); bottom: 0; display: flex; align-items: center; }
   .stop { top: 50%; bottom: auto; transform: translateY(-50%); }
-  /* Desktop scales with the screen: card 32vw (400 to 520px), type grows with it. */
-  :root { --card-w: clamp(400px, 32vw, 520px); --pad: clamp(24px, 2vw, 32px); }
-  .stop .kicker { font-size: clamp(13px, 1vw, 15px); margin-bottom: var(--s3); }
-  .stop h1 { font-size: clamp(48px, 4.2vw, 68px); }
-  .stop h2 { font-size: clamp(38px, 3.3vw, 54px); margin-bottom: var(--s3); }
-  .stop .line { font-size: clamp(18px, 1.35vw, 22px); line-height: 1.45; margin-bottom: var(--s4); }
+  .stop .kicker { font-size: 14px; margin-bottom: var(--s3); }
+  .stop h1 { font-size: 60px; }
+  .stop h2 { font-size: 48px; margin-bottom: var(--s3); }
+  .stop .line { font-size: 20px; line-height: 1.45; margin-bottom: var(--s4); }
   .points { gap: var(--s2); margin-bottom: var(--s5); }
-  .points li { font-size: clamp(17px, 1.25vw, 20px); }
-  .stop-cta { min-height: 56px; font-size: clamp(16px, 1.15vw, 19px); }
+  .points li { font-size: 18px; }
+  .stop-cta { min-height: 56px; font-size: 17px; }
   .stop .hint { font-size: 15px; }
   .final-meta { font-size: 13px; }
-  .rooms { position: fixed; top: 50%; right: var(--edge); transform: translateY(-50%); padding: 0; width: auto; max-width: none; margin: 0; }
+  .rooms { position: fixed; top: 50%; right: var(--edge-z); transform: translateY(-50%); padding: 0; width: auto; max-width: none; margin: 0; }
   .rooms ol { grid-template-columns: none; gap: var(--s3); justify-items: end; }
   .rooms button { display: flex; align-items: center; justify-content: flex-end; gap: var(--s2); width: auto; height: 32px; padding: 0; font-size: 15px; font-weight: 700; color: var(--ink-2); }
   .rooms span { position: static; width: auto; height: auto; overflow: visible; clip: auto; opacity: 0; transform: translateX(4px); transition: opacity .2s ease, transform .2s ease; background: rgba(255,255,255,.9); padding: var(--s1) var(--s3); border-radius: var(--r-ctl); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
