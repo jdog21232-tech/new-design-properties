@@ -4,7 +4,7 @@
 // from the exact point it was taken ("Tour Into the Picture"). Standing at that point you see the photo itself;
 // stepping forward gives true parallax. Scrolling walks you into one photo and on into the next.
 import * as THREE from "../vendor/three.module.min.js";
-import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261122k";
+import { initEstimate, ESTIMATE_HTML } from "../estimate.js?v=20261123a";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -212,9 +212,13 @@ function draw(s) {
 
 // ------------------------------------------------------------------ scroll, cards, rail
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const stopPx = () => Math.max(1, (document.documentElement.scrollHeight - window.innerHeight) / (N - 1));
+// One stop per scroll-track section, measured from the sections themselves so snap points and stops always agree
+// (on phones the toolbar changes innerHeight, which used to leave the walk half way between two photos).
+const secs = $$(".track section");
+const stopPx = () => Math.max(1, secs[0].offsetHeight);
 let sTarget = 0, sCur = 0;
 const readScroll = () => { sTarget = THREE.MathUtils.clamp(window.scrollY / stopPx(), 0, N - 1); };
+let lastOn = -1;
 const cards = $$(".stop"), railBtns = $$(".rooms button"), dim = $("#dim");
 function updateUI(s) {
   cards.forEach((c, i) => {
@@ -225,6 +229,7 @@ function updateUI(s) {
     c.classList.toggle("live", a > 0.5);
   });
   const on = Math.round(s);
+  if (on !== lastOn) { lastOn = on; cards.forEach(c => { c.classList.remove("open"); c.querySelector(".more")?.setAttribute("aria-expanded", "false"); }); }
   railBtns.forEach((b, i) => { b.classList.toggle("on", i === on); b.classList.toggle("past", i < on); b.setAttribute("aria-current", i === on ? "step" : "false"); });
   dim.style.opacity = (smooth(N - 2, N - 1, s) * 0.55).toFixed(3);
   const lawn = ["paver-patio", "lawn-hillside", "lawn-front"].includes(STOPS[on]) && on > 0;
@@ -262,7 +267,17 @@ window.addEventListener("scroll", () => { readScroll(); if (document.hidden) tic
 window.addEventListener("resize", () => { resize(); readScroll(); tick(); });
 window.addEventListener("pointermove", ev => { if (ev.pointerType === "mouse") pointer.set((ev.clientX / state.W) * 2 - 1, (ev.clientY / state.H) * 2 - 1); }, { passive: true });
 window.addEventListener("deviceorientation", ev => { if (ev.gamma == null) return; pointer.set(THREE.MathUtils.clamp(ev.gamma / 25, -1, 1), THREE.MathUtils.clamp((ev.beta - 45) / 25, -1, 1)); }, { passive: true });
-$$("[data-go]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); if (b.dataset.project) estimate.preset(b.dataset.project); window.scrollTo({ top: Number(b.dataset.go) * stopPx(), behavior: reduce ? "auto" : "smooth" }); }));
+$$("[data-go]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); if (b.dataset.project) estimate.preset(b.dataset.project); window.scrollTo({ top: secs[Number(b.dataset.go)].offsetTop, behavior: reduce ? "auto" : "smooth" }); }));
+
+// Slim phone cards: wrap each call-to-action with a Details button that opens the bullet list.
+$$(".stop").forEach(c => {
+  const cta = c.querySelector(".stop-cta"), pts = c.querySelector(".points");
+  if (!cta || !pts) return;
+  const row = document.createElement("div"); row.className = "stop-row";
+  const more = document.createElement("button"); more.type = "button"; more.className = "more"; more.textContent = "Details"; more.setAttribute("aria-expanded", "false");
+  more.addEventListener("click", () => { const o = c.classList.toggle("open"); more.setAttribute("aria-expanded", o); });
+  cta.before(row); row.append(more, cta);
+});
 
 resize(); readScroll(); sCur = sTarget; tick();
 setTimeout(() => $("#loader").classList.add("done"), 4000); // never leave the loader up

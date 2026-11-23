@@ -8,20 +8,21 @@ export const CONTACTS = {
 };
 
 // Everything we do, in 8 groups. Picking a group opens its list of specific jobs, then Continue.
-// (All 22 services from newdesignproperties.com are covered.)
+// (All 22 services from newdesignproperties.com are covered.) photo = img/<photo>.jpg shown behind the hero when picked;
+// placeholder: true marks a free CC0 stand-in until New Design Properties sends their own photo.
 export const GROUPS = [
-  { name: "Kitchens & baths", team: "build", jobs: ["Kitchen remodels", "Bathroom remodels", "Cabinets, counters and tile", "Plumbing and lighting fixtures"] },
-  { name: "Remodeling & finish work", team: "build", jobs: ["Renovation and remodeling", "Finish carpentry, trim and built-ins", "Framing", "Basements and whole floors"] },
-  { name: "Additions & new builds", team: "build", jobs: ["Home additions", "New construction", "Garages", "Commercial construction", "Project management"] },
-  { name: "Decks", team: "build", jobs: ["Cedar and composite decks", "Stairs, railings and pergolas", "Deck repairs and rebuilds"] },
-  { name: "Exteriors & storm repair", team: "build", jobs: ["Siding", "Windows", "Roofing", "Storm damage repair"] },
-  { name: "Repairs & handyman", team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
-  { name: "Lawn care", team: "lawn", jobs: ["Lawn mowing", "Bush trimming", "Seed and sodding", "Edging"] },
-  { name: "Landscaping & patios", team: "lawn", jobs: ["Landscaping", "Paver patios", "Mulch and rock installs", "Planting beds"] },
+  { name: "Kitchens & baths", photo: "kitchen-2", team: "build", jobs: ["Kitchen remodels", "Bathroom remodels", "Cabinets, counters and tile", "Plumbing and lighting fixtures"] },
+  { name: "Remodeling & finish work", photo: "great-room", team: "build", jobs: ["Renovation and remodeling", "Finish carpentry, trim and built-ins", "Framing", "Basements and whole floors"] },
+  { name: "Additions & new builds", photo: "ph-additions", placeholder: true, team: "build", jobs: ["Home additions", "New construction", "Garages", "Commercial construction", "Project management"] },
+  { name: "Decks", photo: "deck-cedar", team: "build", jobs: ["Cedar and composite decks", "Stairs, railings and pergolas", "Deck repairs and rebuilds"] },
+  { name: "Exteriors & storm repair", photo: "ph-exteriors", placeholder: true, team: "build", jobs: ["Siding", "Windows", "Roofing", "Storm damage repair"] },
+  { name: "Repairs & handyman", photo: "ph-repairs", placeholder: true, team: "build", jobs: ["Handyman jobs", "Small repairs and fixes", "Doors, trim and drywall patches"] },
+  { name: "Lawn care", photo: "lawn-hillside", team: "lawn", jobs: ["Lawn mowing", "Bush trimming", "Seed and sodding", "Edging"] },
+  { name: "Landscaping & patios", photo: "paver-patio", team: "lawn", jobs: ["Landscaping", "Paver patios", "Mulch and rock installs", "Planting beds"] },
 ];
 const esc = t => t.replace(/&/g, "&amp;");
 
-export function initEstimate(form, { onTeam } = {}) {
+export function initEstimate(form, { onTeam, onGroup } = {}) {
   const $ = s => form.querySelector(s);
   const steps = [...form.querySelectorAll(".est-step")];
   const bars = [...form.querySelectorAll(".est-progress li")];
@@ -59,6 +60,7 @@ export function initEstimate(form, { onTeam } = {}) {
     detail.querySelector(".est-jobs").replaceChildren(...g.jobs.map(j => { const li = document.createElement("li"); li.textContent = j; return li; }));
     detail.dataset.team = g.team;
     detail.hidden = false;
+    if (onGroup) onGroup(g);
   }
   form.addEventListener("change", e => {
     const t = e.target;

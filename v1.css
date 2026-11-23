@@ -20,11 +20,19 @@ body { padding-bottom: calc(var(--tap) + 2 * var(--s3) + env(safe-area-inset-bot
 .hero { position: relative; isolation: isolate; padding-bottom: var(--s6); }
 .hero-grid { display: grid; gap: 0; }
 .hero-copy { position: relative; isolation: isolate; display: flex; flex-direction: column; gap: var(--s3); margin: 0 calc(-1 * var(--gutter)); padding: var(--s8) var(--gutter) calc(var(--s6) + var(--s6)); color: #fff; }
-.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: opacity .6s ease; }
+.hero-bg.is-new { opacity: 0; }
 .hero-copy::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,12,14,.40), rgba(10,12,14,.80)); }
 .hero-copy h1 { font-size: 40px; font-weight: 600; }
-.hero-copy p { color: #e9e6df; max-width: 34ch; }
-.chips-dark li { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.24); color: #fff; }
+.hero-copy .hero-line { color: #e9e6df; max-width: 30ch; font-size: 20px; line-height: 1.4; }
+/* Stand-in photo: a very faint "photo needed" watermark plus a small yellow note (yellow = for the customer to fill in) */
+.ph-mark, .ph-note { display: none; }
+.hero.is-ph .ph-mark, .hero.is-ph .ph-note { display: block; }
+.ph-mark { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); z-index: -1; margin: 0; text-align: center; white-space: nowrap; pointer-events: none; font-family: var(--display); font-weight: 600; font-size: 56px; line-height: 1; letter-spacing: .08em; text-transform: uppercase; color: #fff; opacity: .08; }
+/* phones: one quiet line in the strip between the text and the estimate card (no layout shift) */
+.ph-note { position: absolute; left: var(--gutter); bottom: 28px; margin: 0; white-space: nowrap; color: rgba(255,255,255,.8); font-size: 12px; line-height: 18px; }
+.ph-long { display: none; }
+.ph-note mark { background: rgba(255,225,77,.85); color: var(--ink); font-weight: 700; padding: 0 var(--s1); border-radius: 3px; }
 .estimate { position: relative; z-index: 1; margin-top: calc(-1 * var(--s6)); }
 
 /* Work row */
@@ -122,6 +130,11 @@ mark.confirm { display: inline-block; padding: 2px var(--s2); border-radius: 4px
   .hero-copy { position: static; isolation: auto; margin: 0; padding: 0; }
   .hero-copy::before { content: none; }
   .hero-copy h1 { font-size: 64px; }
+  .hero-copy .hero-line { font-size: 24px; }
+  .ph-mark { top: auto; bottom: var(--s4); transform: none; font-size: 128px; opacity: .14; }
+  .ph-note { bottom: var(--s4); left: max(var(--gutter), calc((100% - var(--max)) / 2)); max-width: 320px; padding: var(--s2) var(--s3); border-radius: var(--r-ctl); background: rgba(21,23,26,.35); border: 1px dashed rgba(255,225,77,.6); white-space: normal; font-size: 13px; line-height: 1.35; }
+  .ph-long { display: inline; }
+  .ph-short { display: none; }
   .estimate { margin-top: 0; }
   .rail { --cols: 2.5; }
   .call b, .hours b { font-size: 24px; }

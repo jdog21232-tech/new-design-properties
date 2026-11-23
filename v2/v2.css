@@ -1,13 +1,15 @@
 /* Version 2: 3D walk-through. Fixed canvas, fixed chrome, one fixed card slot, scroll track drives the camera.
    All edges align to the same container as the header (max 1120 + gutters). */
 :root { --top: 112px; --z: 1; --edge: max(var(--gutter), calc((100vw - var(--max)) / 2)); --edge-z: max(var(--gutter), calc((100vw / var(--z) - var(--max)) / 2)); --card-w: 384px; }
-html { scroll-snap-type: y proximity; }
+/* Every scroll lands on a whole stop: mandatory snap, one stop per gesture. */
+html { scroll-snap-type: y mandatory; }
 body { background: var(--ink); }
 
 #scene { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; touch-action: pan-y; }
 .vignette { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(10,12,14,.45) 100%); }
 .dim { position: fixed; inset: 0; pointer-events: none; background: var(--ink); opacity: 0; }
-.track section { height: 100vh; height: 100svh; scroll-snap-align: start; pointer-events: none; }
+.track section { height: 100vh; height: 100svh; scroll-snap-align: start; scroll-snap-stop: always; pointer-events: none; }
+.track section:last-child { height: 100vh; height: 100lvh; } /* the last stop is always reachable, toolbar up or down */
 
 /* Chrome: ribbon 32 + bar 64 + rooms 16 = 112 */
 .chrome { position: fixed; z-index: 30; inset: 0 0 auto 0; pointer-events: none; }
@@ -50,6 +52,25 @@ body { background: var(--ink); }
 .points li { position: relative; padding-left: var(--s6); font-size: 16px; line-height: 1.35; }
 .points li::before { content: ""; position: absolute; left: 0; top: .32em; width: .7em; height: .7em; border-radius: 3px; background: var(--accent); }
 .stop-cta { width: 100%; }
+.stop-row { display: flex; gap: var(--s2); }
+.stop-row .stop-cta { flex: 1; width: auto; }
+.more, .cta-m { display: none; }
+
+/* Phones and tablets: a slim card (kicker, title, two buttons) so the photo stays in view. "Details" opens the list. */
+@media (max-width: 1023px) {
+  .stop .line, .stop .points { display: none; }
+  .stop.open .points { display: grid; margin: 0 0 var(--s3); }
+  .stop .kicker { font-size: 12px; margin-bottom: var(--s1); }
+  .stop h1 { font-size: 30px; margin-bottom: var(--s3); }
+  .stop h2 { font-size: 26px; margin-bottom: var(--s3); }
+  .stop .hint { margin-top: var(--s2); font-size: 13px; }
+  .more { display: inline-flex; align-items: center; gap: var(--s2); min-height: var(--tap); padding: 0 var(--s4); border-radius: var(--r-ctl); border: 2px solid var(--line); background: var(--surface); font-weight: 700; font-size: 15px; }
+  .more::after { content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; }
+  .stop.open .more::after { transform: translateY(2px) rotate(225deg); }
+  .cta-d { display: none; }
+  .cta-m { display: inline; }
+}
+@media (min-width: 720px) and (max-width: 1023px) { .cards { right: auto; width: 440px; } }
 .stop .line a { font-weight: 700; color: var(--green-ink); white-space: nowrap; }
 .stop.lawn { --accent: var(--green); --accent-ink: var(--green-ink); }
 .stop .hint { display: flex; align-items: center; gap: var(--s2); margin-top: var(--s3); font-size: 14px; font-weight: 600; color: var(--muted); }
